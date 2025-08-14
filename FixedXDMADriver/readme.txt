@@ -1,3 +1,5 @@
+Build: make
+
 These files include two patches to enable operation on a 32 bit or 64 bit RaspberryPi4 Compute Module:
 
 

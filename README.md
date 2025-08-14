@@ -147,7 +147,7 @@
     Card to Host (C2H): 710 MB/s
   
 读写速度与传输字节数对应关系如下图所示:  
-![板内PCIe实测数据](images/PCIeBandwidth.png)
+<img src="images/PCIeBandwidth.png" alt="板内PCIe实测数据" style="width:400px; height:auto;" />  
 该接口理论最大带宽为 `1 GB/s`.  
 
 ### 2.5 千兆以太网测速
