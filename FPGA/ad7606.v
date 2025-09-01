@@ -1,6 +1,11 @@
 /**
  * Author: Shixuan Liu
  * Date:   2025-8
+ * Note:   1. Before performing any operation, it must be reset (apply a falling edge pulse to usr_rst);
+ *         2. After resetting, apply a rising edge to usr_trigger to enable sampling.
+ *            If usr_sampling is high, do not trigger sampling!
+ *         3. If usr_complete becomes high, it means the sampling is complete;
+ *         4. If usr_error becomes high, it means some error occurred in sampling process;
  */
 
 module ad7606 
@@ -21,37 +26,37 @@ parameter USR_SYSTEM_CLOCK_CYCLE = 20,       /* unit: ns, system frequency cycle
 (
     /* ------------------------------------------------ User interface ------------------------------------------------ */
 
-    input wire         usr_trigger,                   /* Sample Enable, rising edge trigger */
-    input wire         usr_clk,                       /* 50 MHz System Clock */
-    input wire         usr_rst,                       /* Reset the module */
+    input wire         usr_trigger,                   /* Sample Enable, rising edge trigger USR_SYSTEM_CLOCK_CYCLE */
+    input wire         usr_clk,                       /* System Clock, corresponding to  */
+    input wire         usr_rst,                       /* Reset this module, falling edge trigger */
 
-    output reg [15: 0] usr_channel1,
-    output reg [15: 0] usr_channel2,
-    output reg [15: 0] usr_channel3,
-    output reg [15: 0] usr_channel4,
-    output reg [15: 0] usr_channel5,
-    output reg [15: 0] usr_channel6,
-    output reg [15: 0] usr_channel7,
-    output reg [15: 0] usr_channel8,
+    output reg [15: 0] usr_channel1,                  /* Data of channel V1, 16 bit */
+    output reg [15: 0] usr_channel2,                  /* Data of channel V2, 16 bit */
+    output reg [15: 0] usr_channel3,                  /* Data of channel V3, 16 bit */
+    output reg [15: 0] usr_channel4,                  /* Data of channel V4, 16 bit */
+    output reg [15: 0] usr_channel5,                  /* Data of channel V5, 16 bit */
+    output reg [15: 0] usr_channel6,                  /* Data of channel V6, 16 bit */
+    output reg [15: 0] usr_channel7,                  /* Data of channel V7, 16 bit */
+    output reg [15: 0] usr_channel8,                  /* Data of channel V8, 16 bit */
 
-    output reg         usr_complete,                  /* output enable, determine whether the hw_data have been read to output */
-    output reg         usr_error,                     /* read usr_error */
-    output reg         usr_sampling,                  /* sampling, do not trigger */
+    output reg         usr_complete,                  /* Read complete, 1 = in reading; 0 = complete reading */
+    output reg         usr_error,                     /* Error flag, 1 = error occurred; 0 = normal */
+    output reg         usr_sampling,                  /* sampling, 1 = in sampling, do not trigger; 0 = is idle */
 
     /* --------------------------------------------- Hardware interface ---------------------------------------------- */
 
-    input wire         hw_busy,                       /* BUSY Pin of the AD7606 chip */
-    input wire         hw_first_data,                 /* FIRSTDATA Pin of the AD7606 chip  */
+    input wire         hw_busy,                       /* BUSY pin of the AD7606 chip */
+    input wire         hw_first_data,                 /* FIRSTDATA pin of the AD7606 chip  */
     input wire [15: 0] hw_data,                       /* D0 - D15 Pins of the AD7606 chip */
 
-    output reg         hw_convst,                     /* CONVRST_A and CONVRST_B are connect together on the board */
-    output reg         hw_rd,                         /* RD Pin of the AD7606 chip */
-    output reg         hw_cs,                         /* CS# Pin of the AD7606 chip */
-    output reg         hw_range,                      /* Range select of the AD7606 chip */
-    output reg [2: 0]  hw_os,                         /* OS0, OS1, OS2 Pins of the AD7606 */
-    output reg         hw_mode_select,                /* PAR#/SER/BYTE_SEL Pin of the AD7606 chip */
-    output reg         hw_reset,                      /* reset the AD7606 chip */
-    output reg         hw_stby_n                      /* STBY# Pin of AD7606 */
+    output reg         hw_convst,                     /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
+    output reg         hw_rd,                         /* RD# pin of the AD7606 chip */
+    output reg         hw_cs,                         /* CS# pin of the AD7606 chip */
+    output reg         hw_range,                      /* RANGE pin of the AD7606 chip */
+    output reg [2: 0]  hw_os,                         /* OS0 - OS2 pins of the AD7606 chip (Not used) */
+    output reg         hw_mode_select,                /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
+    output reg         hw_reset,                      /* RESET pin of the AD7606 chip */
+    output reg         hw_stby_n                      /* STBY# pin of the AD7606 */
 );
 
 /* --------------------------------------------- Local Parameters ----------------------------------------- */
@@ -167,13 +172,13 @@ always @(posedge usr_clk or negedge usr_rst) begin
         /* Hardware pins */
 
         hw_convst <= HIGH;                   /* CONVRST_A and CONVRST_B are connect together on the board */
-        hw_rd <= HIGH;                       /* RD# Pin of the AD7606 chip */
-        hw_cs <= HIGH;                       /* CS# Pin of the AD7606 chip */
+        hw_rd <= HIGH;                       /* RD# pin of the AD7606 chip */
+        hw_cs <= HIGH;                       /* CS# pin of the AD7606 chip */
         hw_range <= HIGH;                    /* Range select of the AD7606 chip */
         hw_os <= 3'b0;                       /* OS0, OS1, OS2 Pins of the AD7606 */
-        hw_mode_select <= LOW;              /* PAR#/SER/BYTE_SEL Pin of the AD7606 chip */
+        hw_mode_select <= LOW;              /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
         hw_reset <= LOW;                    /* reset the AD7606 chip */
-        hw_stby_n <= HIGH;                   /* STBY# Pin of AD7606 */
+        hw_stby_n <= HIGH;                   /* STBY# pin of AD7606 */
 
         /* State flags */
 
