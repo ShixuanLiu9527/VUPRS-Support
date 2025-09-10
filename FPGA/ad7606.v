@@ -13,8 +13,8 @@ module ad7606
 /* --------------------------------------------- Parameters ---------------------------------------------- */
 
 parameter USR_SYSTEM_CLOCK_CYCLE = 20,       /* unit: ns, system frequency cycle (50 MHz -> 20 ns) */
-          TIMEOUT_CYCLE          = 2000,     /* unit: ns, total timeout threshold */
-          BUSY_MAX_CYCLE         = 200,      /* unit: ns, BUSY timeout threshold */
+          TIMEOUT_CYCLE          = 20000,     /* unit: ns, total timeout threshold */
+          BUSY_MAX_CYCLE         = 5000,      /* unit: ns, BUSY timeout threshold */
           FIRST_DATA_MAX_CYCLE   = 200,      /* unit: ns, FIRST_DATA timeout threshold */
           T_RESET_CYCLE          = 50,       /* unit: ns, t_reset of AD7606 (refer to data sheet) */
           T1_CYCLE               = 40,       /* unit: ns, t1 of AD7606 (refer to data sheet) */
@@ -79,40 +79,45 @@ localparam FIRST_DATA_WAIT_CLOCKS = FIRST_DATA_MAX_CYCLE / USR_SYSTEM_CLOCK_CYCL
 
 /* timer working status */
 
-localparam TIMER_ENABLE          = 1'b1,
-           TIMER_DISABLE         = 1'b0;
+localparam TIMER_ENABLE                              = 1'b1,
+           TIMER_DISABLE                             = 1'b0;
 
 /* timer reset values */
 
-localparam RESET_TIMER           = 8'b0,
-           RESET_TIMEOUT_TIMER   = 32'b0;
+localparam RESET_TIMER                               = 8'b0,
+           RESET_TIMEOUT_TIMER                       = 32'b0;
 
 /* Logic parameters for hardware pins */
 
-localparam HIGH                  = 1'b1,
-           LOW                   = 1'b0;
+localparam HIGH                                      = 1'b1,
+           LOW                                       = 1'b0;
+
+/* Logic parameters for signals */
+
+localparam TRUE                                      = 1'b1,
+           FALSE                                     = 1'b0;
 
 /* system state choice */
 
 localparam STATE_WAIT_FOR_USR_SAMPLE_TRIGGER         = 3'd0, 
-           STATE_CREATE_CONVST_PULSE            = 3'd1,
-           STATE_WAIT_BUSY_HIGH                 = 3'd2,
-           STATE_WAIT_CONVERT_COMPLETE          = 3'd3,
-           STATE_READ_CHANNELS                  = 3'd4,
-           STATE_MEASURE_COMPLETE               = 3'd5;
+           STATE_CREATE_CONVST_PULSE                 = 3'd1,
+           STATE_WAIT_BUSY_HIGH                      = 3'd2,
+           STATE_WAIT_CONVERT_COMPLETE               = 3'd3,
+           STATE_READ_CHANNELS                       = 3'd4,
+           STATE_MEASURE_COMPLETE                    = 3'd5;
 
 /* system sub state choice */
 
-localparam SUB_STATE_CREATE_RD_HIGH_PULSE             = 3'd0,
-           SUB_STATE_WAIT_DATA_READY            = 3'd1,
-           SUB_STATE_READ_DATA                  = 3'd2,
-           SUB_STATE_RD_LOW_PULSE_INTERVAL                   = 3'd3;
+localparam SUB_STATE_CREATE_RD_HIGH_PULSE            = 3'd0,
+           SUB_STATE_WAIT_DATA_READY                 = 3'd1,
+           SUB_STATE_READ_DATA                       = 3'd2,
+           SUB_STATE_RD_LOW_PULSE_INTERVAL           = 3'd3;
 
 /* system reset state choice */
 
-localparam RESET_STATE_CREATE_RESET_PULSE       = 2'd0,
-           RESET_STATE_WAIT_RESET_HIGH          = 2'd1,
-           RESET_STATE_CREATE_COMPLETE          = 2'd2;
+localparam RESET_STATE_CREATE_RESET_PULSE            = 2'd0,
+           RESET_STATE_WAIT_RESET_HIGH               = 2'd1,
+           RESET_STATE_CREATE_COMPLETE               = 2'd2;
 
 /* sync registers */
 
@@ -142,14 +147,32 @@ reg running_timer_en;
 reg reset_timer_en;
 reg timeout_timer_en;
 
-reg error_occurred;
+reg running_timer_reset;
+reg running_timer_need_reset;
+
+reg reset_timer_reset;
+reg reset_timer_need_reset;
+
+reg timeout_timer_reset;
+reg timeout_timer_need_reset;
+
+reg error_occurred_condition_1, error_occurred_condition_2, error_occurred_condition_3, error_occurred_condition_4, error_occurred_condition_5;
+
+reg one_state_trigger_occur;
+reg one_reset_state_trigger_occur;
 
 wire posedge_trigger = usr_trigger_sync_list[1] && ~usr_trigger_sync_list[2];
 
+`define ERROR_OCCURRED (error_occurred_condition_1 || error_occurred_condition_2 || error_occurred_condition_3 || error_occurred_condition_4 || error_occurred_condition_5)
+
+/* -------------------------------------------------- Key registers --------------------------------------------- */
+
+
+
 /* -------------------------------------- Detect usr_trigger (posedge) ------------------------------------------ */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
         usr_trigger_sync_list <= 3'b0;
     end else begin
         usr_trigger_sync_list <= {usr_trigger_sync_list[1: 0], usr_trigger};
@@ -158,9 +181,9 @@ end
 
 /* ------------------------------------------- Detect hw_busy ------------------------------------------- */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
-        hw_busy_sync_list <= 2'b1;
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        hw_busy_sync_list <= 2'b0;
     end else begin
         hw_busy_sync_list[1] <= hw_busy_sync_list[0];
         hw_busy_sync_list[0] <= hw_busy;
@@ -169,8 +192,8 @@ end
 
 /* -------------------------------------- Detect hw_first_data ------------------------------------------ */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
         hw_first_data_sync_list <= 2'b0;
     end else begin
         hw_first_data_sync_list[1] <= hw_first_data_sync_list[0];
@@ -180,8 +203,10 @@ end
 
 /* ----------------------------------------- Triger The Sequence ---------------------------------------  */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+
+        current_channel <= 4'd0;
 
         /* reset output channels */
 
@@ -196,10 +221,19 @@ always @(posedge usr_clk or negedge usr_rst) begin
 
         /* reset output state flags */
 
-        usr_complete <= 1'b0;
-        usr_error <= 1'b0;
-        usr_sampling <= 1'b0;
-        usr_reset_down <= 1'b0;
+        usr_complete <= FALSE;
+        usr_sampling <= FALSE;
+
+        if (`ERROR_OCCURRED) begin
+            usr_error <= TRUE;
+            error_occurred_condition_1 <= FALSE;
+            error_occurred_condition_2 <= FALSE;
+            error_occurred_condition_3 <= FALSE;
+            error_occurred_condition_4 <= FALSE;
+        end
+        else begin
+            usr_error <= FALSE;
+        end
 
         /* reset hardware pins */
 
@@ -207,52 +241,64 @@ always @(posedge usr_clk or negedge usr_rst) begin
         hw_rd <= HIGH;                       /* RD# pin of the AD7606 chip */
         hw_cs <= HIGH;                       /* CS# pin of the AD7606 chip */
         hw_range <= HIGH;                    /* Range select of the AD7606 chip */
-        hw_os <= 3'b0;                       /* OS0, OS1, OS2 Pins of the AD7606 */
-        hw_mode_select <= LOW;              /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
-        hw_reset <= LOW;                    /* reset the AD7606 chip */
+        hw_os <= {LOW, LOW, LOW};            /* OS0, OS1, OS2 Pins of the AD7606 */
+        hw_mode_select <= LOW;               /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
         hw_stby_n <= HIGH;                   /* STBY# pin of AD7606 */
 
         /* state flags */
 
         system_state <= STATE_WAIT_FOR_USR_SAMPLE_TRIGGER;
         system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
-        reset_state <= RESET_STATE_CREATE_RESET_PULSE;  // create a reset pulse
 
-        /* other signal */
+        one_state_trigger_occur <= FALSE;
 
-        current_channel <= 4'b0;  /* 4'b0 for channel-1 */
-        error_occurred <= 1'b0;
+        running_timer_need_reset <= TRUE;
+        timeout_timer_need_reset <= TRUE;
+
+        running_timer_en <= TIMER_DISABLE;
+        timeout_timer_en <= TIMER_DISABLE;
 
     end else begin
         case (system_state)
 
             STATE_WAIT_FOR_USR_SAMPLE_TRIGGER: begin
-                if (posedge_trigger && reset_state == RESET_STATE_CREATE_COMPLETE) begin
+                if (posedge_trigger && reset_state == RESET_STATE_CREATE_COMPLETE && !one_state_trigger_occur) begin
+                    one_state_trigger_occur = TRUE;
+                end
+                if (one_state_trigger_occur) begin
 
-                    /* [running timer]: reset & start up */
+                    if (!running_timer_is_in_reset || !timeout_timer_is_in_reset) begin
+                        running_timer_need_reset <= TRUE;
+                        timeout_timer_need_reset <= TRUE;
+                    end
+                    else begin
+                        running_timer_need_reset <= FALSE;
+                        timeout_timer_need_reset <= FALSE;
 
-                    running_timer <= RESET_TIMER;
-                    running_timer_en <= TIMER_ENABLE;
+                        one_state_trigger_occur <= FALSE;
 
-                    /* [timeout timer]: reset & start up */
+                        /* [running timer]: reset & start up */
 
-                    timeout_timer <= RESET_TIMEOUT_TIMER;
-                    timeout_timer_en <= TIMER_ENABLE;
+                        running_timer_en <= TIMER_ENABLE;
 
-                    /* hardware setting */
+                        /* [timeout timer]: reset & start up */
 
-                    hw_cs <= LOW;      // CS# to LOW
-                    hw_convst <= LOW;  // set CONVST to LOW to make a LOW pulse
+                        timeout_timer_en <= TIMER_ENABLE;
 
-                    /* output flags setting */
+                        /* hardware setting */
 
-                    usr_complete <= 1'b0;
-                    usr_error <= 1'b0;
-                    usr_sampling <= 1'b1;
+                        hw_cs <= LOW;      // CS# to LOW
+                        hw_convst <= LOW;  // set CONVST to LOW to make a LOW pulse
 
-                    error_occurred <= 1'b0;
+                        /* output flags setting */
 
-                    system_state <= STATE_CREATE_CONVST_PULSE;
+                        usr_complete <= 1'b0;
+                        usr_error <= 1'b0;
+                        usr_sampling <= 1'b1;
+
+                        system_state <= STATE_CREATE_CONVST_PULSE;
+                    end
+
                 end
             end
 
@@ -263,18 +309,30 @@ always @(posedge usr_clk or negedge usr_rst) begin
              */
 
             STATE_CREATE_CONVST_PULSE: begin
-                if (running_timer >= T2_CLOCKS) begin
+                if (running_timer >= T2_CLOCKS && !one_state_trigger_occur) begin
+                    one_state_trigger_occur <= TRUE;
+                end
+                if (one_state_trigger_occur) begin
+                  
+                    if (!running_timer_is_in_reset) begin
+                        running_timer_need_reset <= TRUE;
+                    end
+                    else begin
 
-                    /* hardware setting */
+                        running_timer_need_reset <= FALSE;
+                        one_state_trigger_occur <= FALSE;
 
-                    hw_convst <= HIGH;   // set CONVST to HIGH, complete to create a LOW pulse
+                        /* hardware setting */
 
-                    /* [running timer]: reset & start up */
+                        hw_convst <= HIGH;   // set CONVST to HIGH, complete to create a LOW pulse
 
-                    running_timer <= RESET_TIMER;
-                    running_timer_en <= TIMER_ENABLE;
+                        /* [running timer]: start up */
 
-                    system_state <= STATE_WAIT_BUSY_HIGH;
+                        running_timer_en <= TIMER_ENABLE;
+
+                        system_state <= STATE_WAIT_BUSY_HIGH;
+                    end
+
                 end
             end
 
@@ -285,14 +343,25 @@ always @(posedge usr_clk or negedge usr_rst) begin
              */
 
             STATE_WAIT_BUSY_HIGH: begin
-                if (running_timer >= T1_CLOCKS) begin
+                if (running_timer >= T1_CLOCKS && !one_state_trigger_occur) begin
+                    one_state_trigger_occur <= TRUE;
+                end
+                if (one_state_trigger_occur) begin
 
-                    /* [running timer]: reset & start up */
+                    if (!running_timer_is_in_reset) begin
+                        running_timer_need_reset <= TRUE;
+                    end
+                    else begin
 
-                    running_timer <= RESET_TIMER;
-                    running_timer_en <= TIMER_ENABLE;
+                        running_timer_need_reset <= FALSE;
+                        one_state_trigger_occur <= FALSE;
 
-                    system_state <= STATE_WAIT_CONVERT_COMPLETE;
+                        /* [running timer]: reset & start up */
+
+                        running_timer_en <= TIMER_ENABLE;
+
+                        system_state <= STATE_WAIT_CONVERT_COMPLETE;
+                    end
                 end
             end
 
@@ -303,35 +372,265 @@ always @(posedge usr_clk or negedge usr_rst) begin
              */
 
             STATE_WAIT_CONVERT_COMPLETE: begin
-                if (hw_busy_sync_list[1] == LOW) begin
+                if (hw_busy_sync_list[1] == LOW && !one_state_trigger_occur) begin
+                    one_state_trigger_occur <= TRUE;
+                end
+                if (one_state_trigger_occur) begin
 
-                    /* read the data in the AD7606 chip, jump to sub-state */
+                    if (!running_timer_is_in_reset) begin
+                        running_timer_need_reset <= TRUE;
+                    end
+                    else begin
 
-                    system_state <= STATE_READ_CHANNELS;
-                    system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
+                        running_timer_need_reset <= FALSE;
+                        one_state_trigger_occur <= FALSE;
 
-                    /* hardware setting */
+                        /* read the data in the AD7606 chip, jump to sub-state */
 
-                    hw_rd <= HIGH;  // RD# to HIGH
+                        system_state <= STATE_READ_CHANNELS;
+                        system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
 
-                    /* [running timer]: reset & start up */
+                        /* hardware setting */
 
-                    running_timer <= RESET_TIMER;
-                    running_timer_en <= TIMER_ENABLE;
+                        hw_rd <= HIGH;  // RD# to HIGH
 
-                    /* channel pointer to channel-1 */
+                        /* [running timer]: reset & start up */
 
-                    current_channel <= 4'd0;
+                        running_timer_en <= TIMER_ENABLE;
 
-                end else begin
+                        /* channel pointer to channel-1 */
+
+                        current_channel <= 4'd0;
+                    end
+
+                end 
+                else begin
                 
                     /* Error, BUSY is always HIGH */
 
-                    if (running_timer >= BUSY_WAIT_CLOCKS) begin
-                        error_occurred <= 1'b1;
+                    if (running_timer >= BUSY_WAIT_CLOCKS && !(!usr_rst || `ERROR_OCCURRED)) begin
+                        error_occurred_condition_1 <= TRUE;
                     end
 
                 end
+            end
+
+            /*
+             * ... ...
+             * read all channels (RD# is HIGH)
+             * ... ...
+             */
+
+            STATE_READ_CHANNELS: begin
+                case (system_sub_state)
+
+                    /*
+                     * ... ...
+                     * RD# is high
+                     * ... ...
+                     */
+
+                    SUB_STATE_CREATE_RD_HIGH_PULSE: begin
+                        if (running_timer >= T11_CLOCKS && !one_state_trigger_occur) begin
+                            one_state_trigger_occur <= TRUE;
+                        end
+                        if (one_state_trigger_occur) begin
+
+                            if (!running_timer_is_in_reset) begin
+                                running_timer_need_reset <= TRUE;
+                            end
+                            else begin
+
+                                running_timer_need_reset <= FALSE;
+                                one_state_trigger_occur <= FALSE;
+
+                                /* [running timer]: reset & start up */
+
+                                running_timer_en <= TIMER_ENABLE;
+
+                                /* hardware setting, RD# to LOW */
+
+                                hw_rd <= LOW;
+
+                                system_sub_state <= SUB_STATE_WAIT_DATA_READY;
+                            end
+                        end
+                    end
+
+                    /*
+                     * ... ...
+                     * waiting for data ready (make a delay)
+                     * ... ...
+                     */
+
+                    SUB_STATE_WAIT_DATA_READY: begin
+                        if (running_timer >= T14_CLOCKS && !one_state_trigger_occur) begin
+                            one_state_trigger_occur <= TRUE;
+                        end
+                        if (one_state_trigger_occur) begin
+
+                            if (!running_timer_is_in_reset) begin
+                                running_timer_need_reset <= TRUE;
+                            end
+                            else begin
+
+                                running_timer_need_reset <= FALSE;
+                                one_state_trigger_occur <= FALSE;
+
+                                /* [running timer]: reset & start up */
+
+                                running_timer_en <= TIMER_ENABLE;
+
+                                system_sub_state <= SUB_STATE_READ_DATA;
+                            end
+                        end
+                    end
+
+                    SUB_STATE_READ_DATA: begin
+                        if (current_channel == 4'b0) begin
+                            if (hw_first_data_sync_list[1] == HIGH && !one_state_trigger_occur) begin
+                                one_state_trigger_occur <= TRUE;
+                            end
+                            if (one_state_trigger_occur) begin
+
+                                if (!running_timer_is_in_reset) begin
+                                    running_timer_need_reset <= TRUE;
+                                end
+                                else begin
+
+                                    running_timer_need_reset <= FALSE;
+                                    one_state_trigger_occur <= FALSE;
+                                    /* FIRST_DATA is High, read channel-1 */
+
+                                    usr_channel1 <= hw_data;
+
+                                    /* channel pointer to channel-2 */
+
+                                    current_channel <= current_channel + 1;
+
+                                    /* [running timer]: reset & start up */
+
+                                    running_timer_en <= TIMER_ENABLE;
+
+                                    system_sub_state <= SUB_STATE_RD_LOW_PULSE_INTERVAL;
+
+                                end
+                            end
+
+                            else begin
+
+                                /* error, FIRST_DATA is LOW and timeout */
+
+                                if (running_timer >= FIRST_DATA_WAIT_CLOCKS  && !(!usr_rst || `ERROR_OCCURRED)) begin
+                                    error_occurred_condition_2 <= TRUE;
+                                end
+
+                            end
+                        end 
+                        else begin
+
+                            if (hw_first_data_sync_list[1] == LOW && !one_state_trigger_occur) begin  /* must be low */
+                                one_state_trigger_occur <= TRUE;
+                            end
+                            if (one_state_trigger_occur) begin
+
+                                if (!running_timer_is_in_reset) begin
+                                    running_timer_need_reset <= TRUE;
+                                end
+                                else begin
+
+                                    running_timer_need_reset <= FALSE;
+                                    one_state_trigger_occur <= FALSE;
+
+                                    case (current_channel)
+                                        4'd1: usr_channel2 <= hw_data;
+                                        4'd2: usr_channel3 <= hw_data;
+                                        4'd3: usr_channel4 <= hw_data;
+                                        4'd4: usr_channel5 <= hw_data;
+                                        4'd5: usr_channel6 <= hw_data;
+                                        4'd6: usr_channel7 <= hw_data;
+                                        4'd7: usr_channel8 <= hw_data;
+                                        default: begin
+                                            if (!(!usr_rst || `ERROR_OCCURRED)) begin
+                                                error_occurred_condition_3 <= TRUE;
+                                            end
+                                        end
+                                    endcase
+
+                                    /* channel pointer to next channel */
+
+                                    current_channel <= current_channel + 1;
+
+                                    /* [running timer]: reset & start up */
+
+                                    running_timer_en <= TIMER_ENABLE;
+
+                                    system_sub_state <= SUB_STATE_RD_LOW_PULSE_INTERVAL;
+                                end
+                            end
+
+                            else begin
+
+                                /* error, FIRST_DATA is LOW and timeout */
+
+                                if (running_timer >= FIRST_DATA_WAIT_CLOCKS && !(!usr_rst || `ERROR_OCCURRED)) begin
+                                    error_occurred_condition_4 <= TRUE;
+                                end
+
+                            end
+                        end
+                    end
+
+                    /*
+                     * ... ...
+                     * make a LOW pulse for RD#
+                     * ... ...
+                     */
+
+                    SUB_STATE_RD_LOW_PULSE_INTERVAL: begin
+                        if (running_timer >= T10_CLOCKS && !one_state_trigger_occur) begin
+                            one_state_trigger_occur <= TRUE;
+                        end
+                        if (one_state_trigger_occur) begin
+                            if (!running_timer_is_in_reset) begin
+                                    running_timer_need_reset <= TRUE;
+                            end
+                            else begin
+
+                                running_timer_need_reset <= FALSE;
+                                one_state_trigger_occur <= FALSE;
+
+                                /* hardware setting, RD# to HIGH */
+
+                                hw_rd <= HIGH;
+
+                                system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
+
+                                if (current_channel < 4'd8) begin
+
+                                    /* [running timer]: reset & start up */
+
+                                    running_timer_en <= TIMER_ENABLE;
+
+                                end
+                                else begin
+
+                                    /* [running timer]: reset & shut down */
+
+                                    running_timer_en <= TIMER_DISABLE;
+
+                                    /* read complete */
+
+                                    system_state <= STATE_MEASURE_COMPLETE;
+
+                                end 
+                            end
+                        end
+                    end
+
+                    default: system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
+
+                endcase
             end
 
             /* 
@@ -354,12 +653,10 @@ always @(posedge usr_clk or negedge usr_rst) begin
 
                 /* [running timer]: reset & shut down */
 
-                running_timer <= RESET_TIMER;
                 running_timer_en <= TIMER_DISABLE;
 
                 /* [timeout timer]: reset & shut down */
                 
-                timeout_timer <= RESET_TIMEOUT_TIMER;
                 timeout_timer_en <= TIMER_DISABLE;
             end
 
@@ -368,176 +665,39 @@ always @(posedge usr_clk or negedge usr_rst) begin
     end
 end
 
-/* --------------------------------------------- Read Channels ------------------------------------------- */
-
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
-        system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
-        current_channel <= 4'd0;
-    end else begin
-        if (system_state == STATE_READ_CHANNELS) begin
-            case (system_sub_state)
-
-                /*
-                 * ... ...
-                 * RD# is high
-                 * ... ...
-                 */
-
-                SUB_STATE_CREATE_RD_HIGH_PULSE: begin
-                    if (running_timer >= T11_CLOCKS) begin
-
-                        /* [running timer]: reset & start up */
-
-                        running_timer <= RESET_TIMER;
-                        running_timer_en <= TIMER_ENABLE;
-
-                        /* hardware setting, RD# to LOW */
-
-                        hw_rd <= LOW;
-
-                        system_sub_state <= SUB_STATE_WAIT_DATA_READY;
-                    end
-                end
-
-                /*
-                 * ... ...
-                 * waiting for data ready (make a delay)
-                 * ... ...
-                 */
-
-                SUB_STATE_WAIT_DATA_READY: begin
-                    if (running_timer >= T14_CLOCKS) begin
-
-                        /* [running timer]: reset & start up */
-
-                        running_timer <= RESET_TIMER;
-                        running_timer_en <= TIMER_ENABLE;
-
-                        system_sub_state <= SUB_STATE_READ_DATA;
-                    end
-                end
-
-                SUB_STATE_READ_DATA: begin
-                    if (current_channel == 4'b0) begin
-                        if (hw_first_data_sync_list[1] == HIGH) begin
-                            
-                            /* FIRST_DATA is High, read channel-1 */
-
-                            usr_channel1 <= hw_data;
-
-                            /* channel pointer to channel-2 */
-
-                            current_channel <= current_channel + 1;
-
-                            /* [running timer]: reset & start up */
-
-                            running_timer <= RESET_TIMER;
-                            running_timer_en <= TIMER_ENABLE;
-
-                            system_sub_state <= SUB_STATE_RD_LOW_PULSE_INTERVAL;
-
-                        end 
-                        else begin
-
-                            /* error, FIRST_DATA is LOW and timeout */
-
-                            if (running_timer >= FIRST_DATA_WAIT_CLOCKS) begin
-                                error_occurred <= 1'b1;
-                            end
-
-                        end
-                    end else begin
-
-                        case (current_channel)
-                            4'd1: usr_channel2 <= hw_data;
-                            4'd2: usr_channel3 <= hw_data;
-                            4'd3: usr_channel4 <= hw_data;
-                            4'd4: usr_channel5 <= hw_data;
-                            4'd5: usr_channel6 <= hw_data;
-                            4'd6: usr_channel7 <= hw_data;
-                            4'd7: usr_channel8 <= hw_data;
-                            default: system_sub_state <= SUB_STATE_RD_LOW_PULSE_INTERVAL;
-                        endcase
-
-                        /* channel pointer to next channel */
-
-                        current_channel <= current_channel + 1;
-
-                        /* [running timer]: reset & start up */
-
-                        running_timer <= RESET_TIMER;
-                        running_timer_en <= TIMER_ENABLE;
-
-                        system_sub_state <= SUB_STATE_RD_LOW_PULSE_INTERVAL;
-                    end
-                end
-
-                /*
-                 * ... ...
-                 * make a LOW pulse for RD#
-                 * ... ...
-                 */
-
-                SUB_STATE_RD_LOW_PULSE_INTERVAL: begin
-                    if (running_timer >= T10_CLOCKS) begin
-
-                        /* [running timer]: reset & start up */
-
-                        running_timer <= RESET_TIMER;
-                        running_timer_en <= TIMER_ENABLE;
-
-                        /* hardware setting, RD# to HIGH */
-
-                        hw_rd <= HIGH;
-
-                        /* check pointer */
-
-                        if (current_channel >= 4'd8) begin
-
-                            /* [running timer]: reset & shut down */
-
-                            running_timer <= RESET_TIMER;
-                            running_timer_en <= TIMER_DISABLE;
-
-                            /* read complete */
-
-                            system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
-                            system_state <= STATE_MEASURE_COMPLETE;
-
-                        end else begin
-
-                            system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
-
-                        end
-                    end
-                end
-                default: system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
-            endcase
-        end
-    end
-end
-
 /* ---------------------------------------------- Reset Logic ------------------------------------------- */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
         reset_state <= RESET_STATE_CREATE_RESET_PULSE;
+        hw_reset <= LOW;                    /* reset the AD7606 chip */
+        usr_reset_down <= 1'b0;
+        one_reset_state_trigger_occur <= FALSE;
+        reset_timer_need_reset <= TRUE;
+
+        reset_timer_en <= FALSE;
     end else begin
         case(reset_state)
 
             RESET_STATE_CREATE_RESET_PULSE: begin
 
-                /* [reset timer]: reset & start up */
+                if (!reset_timer_is_in_reset) begin
+                    reset_timer_need_reset <= TRUE;
+                end
+                else begin
 
-                reset_timer <= RESET_TIMER;
-                reset_timer_en <= TIMER_ENABLE;
+                    reset_timer_need_reset <= FALSE;
 
-                /* hardware setting, RESET to HIGH */
+                    /* [reset timer]: reset & start up */
 
-                hw_reset <= HIGH;
+                    reset_timer_en <= TIMER_ENABLE;
 
-                reset_state <= RESET_STATE_WAIT_RESET_HIGH;
+                    /* hardware setting, RESET to HIGH */
+
+                    hw_reset <= HIGH;
+
+                    reset_state <= RESET_STATE_WAIT_RESET_HIGH;
+                end
 
             end 
 
@@ -548,52 +708,73 @@ always @(posedge usr_clk or negedge usr_rst) begin
             */
 
             RESET_STATE_WAIT_RESET_HIGH: begin
-                if (reset_timer >= T_RESET_CLOCKS) begin
+                if (reset_timer >= T_RESET_CLOCKS && !one_reset_state_trigger_occur) begin
+                    one_reset_state_trigger_occur <= TRUE;
+                end
+                if (one_reset_state_trigger_occur) begin
+
+                    if (!reset_timer_is_in_reset) begin
+                        reset_timer_need_reset <= TRUE;
+                    end
+                    else begin
+
+                        reset_timer_need_reset <= FALSE;
+
+                        /* [reset timer]: reset & shut down */
+
+                        reset_timer_en <= TIMER_DISABLE;
+
+                        /* hardware setting, RESET to LOW */
+
+                        hw_reset <= LOW;
+
+                        reset_state <= RESET_STATE_CREATE_COMPLETE;
+                    end
+                end
+            end 
+
+            RESET_STATE_CREATE_COMPLETE: begin
+                if (!reset_timer_is_in_reset) begin
+                    reset_timer_need_reset <= TRUE;
+                end
+                else begin
+
+                    reset_timer_need_reset <= FALSE;
 
                     /* [reset timer]: reset & shut down */
-
-                    reset_timer <= RESET_TIMER;
+    
                     reset_timer_en <= TIMER_DISABLE;
 
                     /* hardware setting, RESET to LOW */
 
                     hw_reset <= LOW;
 
+                    usr_reset_down <= 1'b1;
+
                     reset_state <= RESET_STATE_CREATE_COMPLETE;
                 end
-            end 
-
-            RESET_STATE_CREATE_COMPLETE: begin
-
-                /* [reset timer]: reset & shut down */
-
-                reset_timer <= RESET_TIMER;
-                reset_timer_en <= TIMER_DISABLE;
-
-                /* hardware setting, RESET to LOW */
-
-                hw_reset <= LOW;
-
-                usr_reset_down <= 1'b1;
-
-                reset_state <= RESET_STATE_CREATE_COMPLETE;
             end
 
             default: begin
+                if (!reset_timer_is_in_reset) begin
+                    reset_timer_need_reset <= TRUE;
+                end
+                else begin
 
-                /* [reset timer]: reset & shut down */
+                    reset_timer_need_reset <= FALSE;
 
-                reset_timer <= RESET_TIMER;
-                reset_timer_en <= TIMER_DISABLE;
+                    /* [reset timer]: reset & shut down */
+    
+                    reset_timer_en <= TIMER_DISABLE;
 
-                /* hardware setting, RESET to LOW */
+                    /* hardware setting, RESET to LOW */
 
-                hw_reset <= LOW;
+                    hw_reset <= LOW;
 
-                usr_reset_down <= 1'b1;
+                    usr_reset_down <= 1'b1;
 
-                reset_state <= RESET_STATE_CREATE_COMPLETE;
-                
+                    reset_state <= RESET_STATE_CREATE_COMPLETE;
+                end
             end
 
         endcase
@@ -602,16 +783,28 @@ end
 
 /* ---------------------------------------------- Running Timer ------------------------------------------------- */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+wire running_timer_is_in_reset = (running_timer == RESET_TIMER);
 
-        /* [running timer]: reset & shut down */
-
-        running_timer <= RESET_TIMER;
-        running_timer_en <= TIMER_DISABLE;
-        
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        running_timer_reset <= FALSE;
     end else begin
-        if (running_timer_en) begin
+        if (running_timer_need_reset) begin
+            running_timer_reset <= TRUE;
+        end else begin
+            running_timer_reset <= FALSE;
+        end
+    end
+end
+
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        running_timer <= RESET_TIMER;
+    end
+    else begin
+        if (running_timer_reset) begin
+            running_timer <= RESET_TIMER;
+        end else if (running_timer_en) begin
             running_timer <= running_timer + 1;
         end else begin
             running_timer <= RESET_TIMER;
@@ -621,16 +814,28 @@ end
 
 /* ------------------------------------------ Reset Timer ----------------------------------------------- */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+wire reset_timer_is_in_reset = (reset_timer == RESET_TIMER);
 
-        /* [reset timer]: reset & shut down */
-
-        reset_timer <= RESET_TIMER;
-        reset_timer_en <= TIMER_DISABLE;
-
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        reset_timer_reset <= FALSE;
     end else begin
-        if (reset_timer_en) begin
+        if (reset_timer_need_reset) begin
+            reset_timer_reset <= TRUE;
+        end else begin
+            reset_timer_reset <= FALSE;
+        end
+    end
+end
+
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        reset_timer <= RESET_TIMER;
+    end 
+    else begin
+        if (reset_timer_reset) begin
+            reset_timer <= RESET_TIMER;
+        end else if (reset_timer_en) begin
             reset_timer <= reset_timer + 1;
         end else begin
             reset_timer <= RESET_TIMER;
@@ -640,45 +845,40 @@ end
 
 /* ---------------------------------------------- Timeout Timer ----------------------------------------------- */
 
-always @(posedge usr_clk or negedge usr_rst) begin
-    if (!usr_rst) begin
+wire timeout_timer_is_in_reset = (timeout_timer == RESET_TIMEOUT_TIMER);
 
-        /* [timeout timer]: reset & shut down */
-
-        timeout_timer <= RESET_TIMEOUT_TIMER;
-        timeout_timer_en <= TIMER_DISABLE;
-
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        timeout_timer_reset <= FALSE;
     end else begin
-        if (timeout_timer_en) begin
-            timeout_timer <= timeout_timer + 1;
+        if (timeout_timer_need_reset) begin
+            timeout_timer_reset <= TRUE;
         end else begin
+            timeout_timer_reset <= FALSE;
+        end
+    end
+end
+
+always @(posedge usr_clk) begin
+    if (!usr_rst || `ERROR_OCCURRED) begin
+        timeout_timer <= RESET_TIMEOUT_TIMER;
+        if (`ERROR_OCCURRED) begin
+            error_occurred_condition_5 <= FALSE;
+        end
+    end else begin
+
+        if (timeout_timer_reset) begin
+            timeout_timer <= RESET_TIMEOUT_TIMER;
+        end 
+        else if (timeout_timer_en) begin
+            timeout_timer <= timeout_timer + 1;
+        end 
+        else begin
             timeout_timer <= RESET_TIMEOUT_TIMER;
         end
 
-        if (timeout_timer >= TIMEOUT_CLOCKS || error_occurred) begin
-
-            system_state <= STATE_WAIT_FOR_USR_SAMPLE_TRIGGER;
-            system_sub_state <= SUB_STATE_CREATE_RD_HIGH_PULSE;
-
-            /* [timeout timer]: reset & shut down */
-
-            timeout_timer <= RESET_TIMEOUT_TIMER;
-            timeout_timer_en <= TIMER_DISABLE;
-
-            /* [running timer]: reset & shut down */
-
-            running_timer <= RESET_TIMER;
-            running_timer_en <= TIMER_DISABLE;
-
-            /* channel pointer to channel-1 */
-
-            current_channel <= 4'b0;
-           
-            usr_complete <= 1'b1;
-            usr_error <= 1'b1;
-            usr_sampling <= 1'b0;
-
-            error_occurred <= 1'b0;
+        if (timeout_timer >= TIMEOUT_CLOCKS && !(!usr_rst || `ERROR_OCCURRED)) begin
+            error_occurred_condition_5 <= TRUE;
         end
     end
 end
