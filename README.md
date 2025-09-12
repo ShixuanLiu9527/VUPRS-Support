@@ -205,6 +205,10 @@
 
 这个 `WIFI` 很慢, 主要用来拉取代码.
 
+**断开 `WIFI`**:
+
+    nmcli dev disconnect wlan0
+
 ## 3. `FPGA` 侧使用手册
 
 ### 3.1 通过 `VIVADO` 连接 `FPGA`
