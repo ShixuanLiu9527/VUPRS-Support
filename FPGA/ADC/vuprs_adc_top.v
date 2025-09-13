@@ -39,12 +39,10 @@ module vuprs_adc_top
 (* keep = "true" *) wire [15: 0] ch1_a, ch2_a, ch3_a, ch4_a, ch5_a, ch6_a, ch7_a, ch8_a;
 (* keep = "true" *) wire [15: 0] ch1_b, ch2_b, ch3_b, ch4_b, ch5_b, ch6_b, ch7_b, ch8_b;
 
-(* keep = "true" *) wire adc_complete_a;
 (* keep = "true" *) wire adc_error_a;
 (* keep = "true" *) wire adc_sampling_a;
 (* keep = "true" *) wire adc_reset_down_a;
 
-(* keep = "true" *) wire adc_complete_b;
 (* keep = "true" *) wire adc_error_b;
 (* keep = "true" *) wire adc_sampling_b;
 (* keep = "true" *) wire adc_reset_down_b;
@@ -78,7 +76,6 @@ ad7606 adc_a_controller
     .usr_channel7(ch7_a),                  /* Data of channel V7, 16 bit */
     .usr_channel8(ch8_a),                  /* Data of channel V8, 16 bit */
 
-    .usr_complete(adc_complete_a),                  /* Read complete, 1 = in reading; 0 = complete reading */
     .usr_error(adc_error_a),                     /* Error flag, 1 = error occurred; 0 = normal */
     .usr_sampling(adc_sampling_a),                  /* sampling, 1 = in sampling, do not trigger; 0 = is idle */
     .usr_reset_down(adc_reset_down_a),                /* Reset is down (complete to create a HIGH pulse for RESET pin) */
@@ -118,7 +115,6 @@ ad7606 adc_b_controller
     .usr_channel7(ch7_b),                  /* Data of channel V7, 16 bit */
     .usr_channel8(ch8_b),                  /* Data of channel V8, 16 bit */
 
-    .usr_complete(adc_complete_b),                  /* Read complete, 1 = in reading; 0 = complete reading */
     .usr_error(adc_error_b),                     /* Error flag, 1 = error occurred; 0 = normal */
     .usr_sampling(adc_sampling_b),                  /* sampling, 1 = in sampling, do not trigger; 0 = is idle */
     .usr_reset_down(adc_reset_down_b),                /* Reset is down (complete to create a HIGH pulse for RESET pin) */
