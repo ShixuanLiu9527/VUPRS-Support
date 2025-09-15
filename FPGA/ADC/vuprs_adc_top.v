@@ -39,11 +39,11 @@ module vuprs_adc_top
 (* keep = "true" *) wire [15: 0] ch1_a, ch2_a, ch3_a, ch4_a, ch5_a, ch6_a, ch7_a, ch8_a;
 (* keep = "true" *) wire [15: 0] ch1_b, ch2_b, ch3_b, ch4_b, ch5_b, ch6_b, ch7_b, ch8_b;
 
-(* keep = "true" *) wire adc_error_a;
+(* keep = "true" *) wire [3: 0] adc_error_a;
 (* keep = "true" *) wire adc_sampling_a;
 (* keep = "true" *) wire adc_reset_down_a;
 
-(* keep = "true" *) wire adc_error_b;
+(* keep = "true" *) wire [3: 0] adc_error_b;
 (* keep = "true" *) wire adc_sampling_b;
 (* keep = "true" *) wire adc_reset_down_b;
 
@@ -52,7 +52,7 @@ module vuprs_adc_top
 
 wire sampling_signal = sampling_trigger;
 
-localparam sample_frequency_Hz = 100_000,
+localparam sample_frequency_Hz = 150_000,
            system_clk_frequency_Hz = 50_000_000;
 
 localparam sample_clock_setting = system_clk_frequency_Hz / (sample_frequency_Hz * 2) - 1;  // 20000 Hz sample rate (clk = 50 MHz)
@@ -78,7 +78,7 @@ ad7606 adc_a_controller
 
     .usr_error(adc_error_a),                     /* Error flag, 1 = error occurred; 0 = normal */
     .usr_sampling(adc_sampling_a),                  /* sampling, 1 = in sampling, do not trigger; 0 = is idle */
-    .usr_reset_down(adc_reset_down_a),                /* Reset is down (complete to create a HIGH pulse for RESET pin) */
+    .usr_ready(adc_reset_down_a),                /* Reset is down (complete to create a HIGH pulse for RESET pin) */
 
     /* --------------------------------------------- Hardware interface ---------------------------------------------- */
 
@@ -117,7 +117,7 @@ ad7606 adc_b_controller
 
     .usr_error(adc_error_b),                     /* Error flag, 1 = error occurred; 0 = normal */
     .usr_sampling(adc_sampling_b),                  /* sampling, 1 = in sampling, do not trigger; 0 = is idle */
-    .usr_reset_down(adc_reset_down_b),                /* Reset is down (complete to create a HIGH pulse for RESET pin) */
+    .usr_ready(adc_reset_down_b),                /* Reset is down (complete to create a HIGH pulse for RESET pin) */
 
     /* --------------------------------------------- Hardware interface ---------------------------------------------- */
 
@@ -141,16 +141,18 @@ vuprs_ila_0 system_ila (
 
 	.probe0(adc_a_controller.hw_data_sync2), // input wire [15:0]  probe0  
 	.probe1(adc_b_controller.hw_data_sync2), // input wire [15:0]  probe1 
-	.probe2(adc_a_controller.system_state), // input wire [2:0]  probe2 
-	.probe3(adc_b_controller.system_state), // input wire [2:0]  probe3 
-	.probe4(adc_a_controller.system_sub_state), // input wire [2:0]  probe4 
-	.probe5(adc_b_controller.system_sub_state), // input wire [2:0]  probe5 
+	.probe2(adc_a_controller.system_state), // input wire [5:0]  probe2 
+	.probe3(adc_b_controller.system_state), // input wire [5:0]  probe3 
+	.probe4(adc_error_a), // input wire [3:0]  probe4 
+	.probe5(adc_error_b), // input wire [3:0]  probe5 
 	.probe6(adc_rd_a), // input wire [0:0]  probe6 
 	.probe7(adc_rd_b), // input wire [0:0]  probe7 
 	.probe8(adc_busy_a), // input wire [0:0]  probe8 
 	.probe9(adc_busy_b), // input wire [0:0]  probe9 
-	.probe10(adc_first_data_a), // input wire [0:0]  probe10 
-	.probe11(adc_first_data_b) // input wire [0:0]  probe11
+	.probe10(adc_a_controller.hw_first_data_sync_list[1]), // input wire [0:0]  probe10 
+	.probe11(adc_b_controller.hw_first_data_sync_list[1]), // input wire [0:0]  probe11
+    .probe12(adc_a_controller.current_channel), // input wire [8:0]  probe12
+    .probe13(sampling_signal) // input wire [0:0]  probe12
 );
 
 /* sampling clock */
