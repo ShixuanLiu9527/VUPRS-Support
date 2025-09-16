@@ -527,3 +527,5 @@
 `PLL` 是锁相环 `IP` 核, 是程序中最常用的 `IP` 之一, 在 `Xilinx FPGA` 时钟管理模块中, 包含了时钟管理单元 (`Clock Management Tile`, `CMT`), 每个 `CMT` 由一个混合模式时钟管理 (`Mixed-Mode Clock Manager`, `MMCM`) 和锁相环 (`Phase Locked Loop`, `PLL`) 组成.  
 其中 `PLL` 用来整合时钟信号, 使高频器件正常工作;  
 `MMCM` 是基于 `PLL` 的新型混合模式时钟管理器, 实现了最低的抖动和抖动滤波, 为高性能的 `FPGA` 设计提供更高性能的时钟管理功能, `MMCM` 在 `PLL` 的基础上加上了相位动态调整功能, 又因为 `PLL` 是模拟电路, 而动态调相是数字电路, 所以 `MMCM` 被称为混合模式;  
+
+# 5. `AXI4` 总线
