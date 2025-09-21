@@ -1,5 +1,7 @@
 # VUPRS - 声学高速数据处理板
 
+<img src="images/board.png" alt="PCB" style="width:600px; height:auto;" />  
+
 ## 1. 硬件相关资源
 
 本仓库是车下异响故障识别与定位系统 `(Vehicle-Under Fault Positioning and Recognition System, VUPRS)` 的硬件研发仓库, 主要用于管理相关依赖, 并整理代码.  
