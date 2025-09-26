@@ -1,0 +1,2230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>vuprs_axis_adc_controller</spirit:name>
+  <spirit:version>2.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>S00_AXI</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="aximm" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="aximm_rtl" spirit:version="1.0"/>
+      <spirit:slave>
+        <spirit:memoryMapRef spirit:memoryMapRef="S00_AXI"/>
+      </spirit:slave>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWADDR</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_awaddr</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWPROT</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_awprot</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_awvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_awready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_wdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_wstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_wvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_wready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BRESP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_bresp</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_bvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_bready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARADDR</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_araddr</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARPROT</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_arprot</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_arvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_arready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_rdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RRESP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_rresp</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_rvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_rready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>WIZ_DATA_WIDTH</spirit:name>
+          <spirit:value spirit:format="long" spirit:id="BUSIFPARAM_VALUE.S00_AXI.WIZ_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197">32</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>WIZ_NUM_REG</spirit:name>
+          <spirit:value spirit:format="long" spirit:id="BUSIFPARAM_VALUE.S00_AXI.WIZ_NUM_REG" spirit:minimum="4" spirit:maximum="512" spirit:rangeType="long">8</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>SUPPORTS_NARROW_BURST</spirit:name>
+          <spirit:value spirit:format="long" spirit:id="BUSIFPARAM_VALUE.S00_AXI.SUPPORTS_NARROW_BURST" spirit:choiceRef="choice_pairs_ce1226b1">0</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M00_AXIS</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TKEEP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tkeep</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>WIZ_DATA_WIDTH</spirit:name>
+          <spirit:value spirit:format="long" spirit:id="BUSIFPARAM_VALUE.M00_AXIS.WIZ_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197">32</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>HAS_TKEEP</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXIS.HAS_TKEEP"/>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S00_AXI_RST</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S00_AXI_RST.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S00_AXI_CLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axi_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S00_AXI_CLK.ASSOCIATED_BUSIF">S00_AXI</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S00_AXI_CLK.ASSOCIATED_RESET">s00_axi_aresetn</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M00_AXIS_RST</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXIS_RST.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M00_AXIS_CLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXIS_CLK.ASSOCIATED_BUSIF">M00_AXIS</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXIS_CLK.ASSOCIATED_RESET">m00_axis_aresetn</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>adc_rst_n</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_rst_n</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.ADC_RST_N.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>adc_a_hw_reset</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_reset</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>adc_b_hw_reset</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_reset</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_ADC_A</spirit:name>
+      <spirit:displayName>M_ADC_A</spirit:displayName>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="user" spirit:name="adc_hardware" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="user" spirit:name="adc_hardware_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CS</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_cs</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_rd</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>OS</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_os</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_data</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BUSY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_busy</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FIRST_DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_first_data</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CONVST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_convst</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MODE_SEL</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_mode_select</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RESET</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_reset</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STBY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_stby_n</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RANGE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_a_hw_range</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>NUM_READ_OUTSTANDING</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_ADC_A.NUM_READ_OUTSTANDING"/>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>NUM_WRITE_OUTSTANDING</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_ADC_A.NUM_WRITE_OUTSTANDING"/>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_ADC_B</spirit:name>
+      <spirit:displayName>M_ADC_B</spirit:displayName>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="user" spirit:name="adc_hardware" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="user" spirit:name="adc_hardware_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CS</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_cs</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_rd</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>OS</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_os</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_data</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BUSY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_busy</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FIRST_DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_first_data</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CONVST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_convst</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MODE_SEL</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_mode_select</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RESET</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_reset</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STBY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_stby_n</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RANGE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>adc_b_hw_range</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>NUM_READ_OUTSTANDING</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_ADC_B.NUM_READ_OUTSTANDING"/>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>NUM_WRITE_OUTSTANDING</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_ADC_B.NUM_WRITE_OUTSTANDING"/>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:memoryMaps>
+    <spirit:memoryMap>
+      <spirit:name>S00_AXI</spirit:name>
+      <spirit:addressBlock>
+        <spirit:name>S00_AXI_reg</spirit:name>
+        <spirit:baseAddress spirit:format="long" spirit:resolve="user">0</spirit:baseAddress>
+        <spirit:range spirit:format="long">4096</spirit:range>
+        <spirit:width spirit:format="long">32</spirit:width>
+        <spirit:usage>register</spirit:usage>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>OFFSET_BASE_PARAM</spirit:name>
+            <spirit:value spirit:id="ADDRBLOCKPARAM_VALUE.S00_AXI.S00_AXI_REG.OFFSET_BASE_PARAM">C_S00_AXI_BASEADDR</spirit:value>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>OFFSET_HIGH_PARAM</spirit:name>
+            <spirit:value spirit:id="ADDRBLOCKPARAM_VALUE.S00_AXI.S00_AXI_REG.OFFSET_HIGH_PARAM">C_S00_AXI_HIGHADDR</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:addressBlock>
+    </spirit:memoryMap>
+  </spirit:memoryMaps>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_verilogsynthesis</spirit:name>
+        <spirit:displayName>Verilog Synthesis</spirit:displayName>
+        <spirit:envIdentifier>verilogSource:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>verilog</spirit:language>
+        <spirit:modelName>vuprs_adc_controller_v2_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_verilogsynthesis_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_verilogsynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>46d7351f</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_verilogbehavioralsimulation</spirit:name>
+        <spirit:displayName>Verilog Simulation</spirit:displayName>
+        <spirit:envIdentifier>verilogSource:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>verilog</spirit:language>
+        <spirit:modelName>vuprs_adc_controller_v2_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_verilogbehavioralsimulation_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_verilogbehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>46d7351f</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_softwaredriver</spirit:name>
+        <spirit:displayName>Software Driver</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:sw.driver</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_softwaredriver_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>419b5526</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>ea5d8d97</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>bd_tcl</spirit:name>
+        <spirit:displayName>Block Diagram</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:block.diagram</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>bd_tcl_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>16328387</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>adc_rst_n</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_busy</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_first_data</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_data</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_convst</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_rd</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_cs</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_range</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_os</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_mode_select</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_reset</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_a_hw_stby_n</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_busy</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_first_data</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_data</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_convst</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_rd</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_cs</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_range</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_os</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_mode_select</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_reset</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>adc_b_hw_stby_n</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_awaddr</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXI_ADDR_WIDTH&apos;)) - 1)">4</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_awprot</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_awvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_awready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_wdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXI_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_wstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXI_DATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_wvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_wready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_bresp</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">1</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_bvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_bready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_araddr</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXI_ADDR_WIDTH&apos;)) - 1)">4</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_arprot</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_arvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_arready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_rdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXI_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_rresp</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">1</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_rvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axi_rready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tkeep</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>C_S00_AXI_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C S00 AXI DATA WIDTH</spirit:displayName>
+        <spirit:description>Width of S_AXI data bus</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S00_AXI_DATA_WIDTH" spirit:order="3" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S00_AXI_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>C S00 AXI ADDR WIDTH</spirit:displayName>
+        <spirit:description>Width of S_AXI address bus</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S00_AXI_ADDR_WIDTH" spirit:order="4" spirit:rangeType="long">5</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M00_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C M00 AXIS TDATA WIDTH</spirit:displayName>
+        <spirit:description>Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH" spirit:order="7" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M00_AXIS_START_COUNT</spirit:name>
+        <spirit:displayName>C M00 AXIS START COUNT</spirit:displayName>
+        <spirit:description>Start count is the number of clock cycles the master will wait before initiating/issuing any transaction.</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M00_AXIS_START_COUNT" spirit:order="8" spirit:minimum="1" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>USR_CLK_CYCLE_NS</spirit:name>
+        <spirit:displayName>Usr Clk Cycle Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.USR_CLK_CYCLE_NS">20</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T_CYCLE_NS</spirit:name>
+        <spirit:displayName>T Cycle Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T_CYCLE_NS">5000</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T_RESET_NS</spirit:name>
+        <spirit:displayName>T Reset Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T_RESET_NS">50</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T_CONV_MIN_NS</spirit:name>
+        <spirit:displayName>T Conv Min Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T_CONV_MIN_NS">3450</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T_CONV_MAX_NS</spirit:name>
+        <spirit:displayName>T Conv Max Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T_CONV_MAX_NS">4150</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T1_NS</spirit:name>
+        <spirit:displayName>T1 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T1_NS">40</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T2_NS</spirit:name>
+        <spirit:displayName>T2 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T2_NS">25</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T10_NS</spirit:name>
+        <spirit:displayName>T10 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T10_NS">25</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T11_NS</spirit:name>
+        <spirit:displayName>T11 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T11_NS">15</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T14_NS</spirit:name>
+        <spirit:displayName>T14 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T14_NS">25</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T15_NS</spirit:name>
+        <spirit:displayName>T15 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T15_NS">6</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>T26_NS</spirit:name>
+        <spirit:displayName>T26 Ns</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T26_NS">25</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXIS_BUFFER_SIZE</spirit:name>
+        <spirit:displayName>C M Axis Buffer Size</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXIS_BUFFER_SIZE">32</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_6fc15197</spirit:name>
+      <spirit:enumeration>32</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_pairs_ce1226b1</spirit:name>
+      <spirit:enumeration spirit:text="true">1</spirit:enumeration>
+      <spirit:enumeration spirit:text="false">0</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_verilogsynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>src/adc_fifo_1/adc_fifo.xci</spirit:name>
+        <spirit:userFileType>xci</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_vuprs_adc_controller_v2_0_M00_AXIS_inst/vuprs_adc_fifo/adc_fifo</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/ad7606.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vuprs_adc_controller_v2_0_M00_AXIS.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vuprs_adc_controller_v2_0_S00_AXI.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vuprs_adc_controller_v2_0.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_e7666510</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_verilogsynthesis_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="fifo_generator" xilinx:version="13.2">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_verilogbehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>src/adc_fifo_1/adc_fifo.xci</spirit:name>
+        <spirit:userFileType>xci</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_vuprs_adc_controller_v2_0_M00_AXIS_inst/vuprs_adc_fifo/adc_fifo</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/ad7606.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vuprs_adc_controller_v2_0_M00_AXIS.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vuprs_adc_controller_v2_0_S00_AXI.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vuprs_adc_controller_v2_0.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_verilogbehavioralsimulation_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="fifo_generator" xilinx:version="13.2">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_softwaredriver_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>drivers/vuprs_adc_controller_v1_0/data/vuprs_adc_controller.mdd</spirit:name>
+        <spirit:userFileType>mdd</spirit:userFileType>
+        <spirit:userFileType>driver_mdd</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>drivers/vuprs_adc_controller_v1_0/data/vuprs_adc_controller.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>driver_tcl</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>drivers/vuprs_adc_controller_v1_0/src/Makefile</spirit:name>
+        <spirit:userFileType>driver_src</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>drivers/vuprs_adc_controller_v1_0/src/vuprs_adc_controller.h</spirit:name>
+        <spirit:fileType>cSource</spirit:fileType>
+        <spirit:userFileType>driver_src</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>drivers/vuprs_adc_controller_v1_0/src/vuprs_adc_controller.c</spirit:name>
+        <spirit:fileType>cSource</spirit:fileType>
+        <spirit:userFileType>driver_src</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>drivers/vuprs_adc_controller_v1_0/src/vuprs_adc_controller_selftest.c</spirit:name>
+        <spirit:fileType>cSource</spirit:fileType>
+        <spirit:userFileType>driver_src</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/vuprs_axis_adc_controller_v2_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_ea5d8d97</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>bd_tcl_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>bd/bd.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>ADC Controller with AXI-Lite &amp; AXI-Stream interface</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>C_S00_AXI_DATA_WIDTH</spirit:name>
+      <spirit:displayName>C S00 AXI DATA WIDTH</spirit:displayName>
+      <spirit:description>Width of S_AXI data bus</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S00_AXI_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197" spirit:order="3">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S00_AXI_DATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_S00_AXI_ADDR_WIDTH</spirit:name>
+      <spirit:displayName>C S00 AXI ADDR WIDTH</spirit:displayName>
+      <spirit:description>Width of S_AXI address bus</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S00_AXI_ADDR_WIDTH" spirit:order="4" spirit:rangeType="long">5</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S00_AXI_ADDR_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_S00_AXI_BASEADDR</spirit:name>
+      <spirit:displayName>C S00 AXI BASEADDR</spirit:displayName>
+      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S00_AXI_BASEADDR" spirit:order="5" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S00_AXI_BASEADDR">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_S00_AXI_HIGHADDR</spirit:name>
+      <spirit:displayName>C S00 AXI HIGHADDR</spirit:displayName>
+      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S00_AXI_HIGHADDR" spirit:order="6" spirit:bitStringLength="32">0x00000000</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S00_AXI_HIGHADDR">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M00_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C M00 AXIS TDATA WIDTH</spirit:displayName>
+      <spirit:description>Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M00_AXIS_TDATA_WIDTH" spirit:choiceRef="choice_list_6fc15197" spirit:order="7">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M00_AXIS_TDATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M00_AXIS_START_COUNT</spirit:name>
+      <spirit:displayName>C M00 AXIS START COUNT</spirit:displayName>
+      <spirit:description>Start count is the number of clock cycles the master will wait before initiating/issuing any transaction.</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M00_AXIS_START_COUNT" spirit:order="8" spirit:minimum="1" spirit:rangeType="long">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">vuprs_adc_controller_v2_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>USR_CLK_CYCLE_NS</spirit:name>
+      <spirit:displayName>AXI-Stream ACLK Clock Cycle (ns)</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.USR_CLK_CYCLE_NS" spirit:minimum="1" spirit:maximum="1000" spirit:rangeType="long">20</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T_CYCLE_NS</spirit:name>
+      <spirit:displayName>t_cycle (ns)</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T_CYCLE_NS">5000</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T_RESET_NS</spirit:name>
+      <spirit:displayName>T Reset Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T_RESET_NS" spirit:minimum="20" spirit:maximum="2000" spirit:rangeType="long">50</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T_CONV_MIN_NS</spirit:name>
+      <spirit:displayName>T Conv Min Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T_CONV_MIN_NS">3450</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T_CONV_MAX_NS</spirit:name>
+      <spirit:displayName>T Conv Max Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T_CONV_MAX_NS">4150</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T1_NS</spirit:name>
+      <spirit:displayName>T1 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T1_NS">40</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T2_NS</spirit:name>
+      <spirit:displayName>T2 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T2_NS">25</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T10_NS</spirit:name>
+      <spirit:displayName>T10 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T10_NS">25</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T11_NS</spirit:name>
+      <spirit:displayName>T11 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T11_NS">15</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T14_NS</spirit:name>
+      <spirit:displayName>T14 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T14_NS">25</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T15_NS</spirit:name>
+      <spirit:displayName>T15 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T15_NS">6</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>T26_NS</spirit:name>
+      <spirit:displayName>T26 Ns</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T26_NS">25</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M_AXIS_BUFFER_SIZE</spirit:name>
+      <spirit:displayName>AXI-Stream Buffer Size</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXIS_BUFFER_SIZE" spirit:minimum="16" spirit:maximum="1024" spirit:rangeType="long">32</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">artix7</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>AXI-Stream ADC Controller</xilinx:displayName>
+      <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
+      </xilinx:xpmLibraries>
+      <xilinx:vendorDisplayName>AXI-Stream ADC Controller</xilinx:vendorDisplayName>
+      <xilinx:coreRevision>6</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>xilinx.com:user:vuprs_adc_controller:2.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2025-09-26T06:26:48Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@754366ce_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2849c794_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@515ba3dd_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bb5ee9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18183ff0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fa847a3_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76a33792_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@693770f5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@200e7576_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7322834c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69dce504_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63f1a982_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40188076_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77cd13dd_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@da5bfa0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@330cbbbb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15efaf2e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@703845a8_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f83016f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27f40f64_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cdb1551_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17c0e338_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37c85f61_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bdd7ce0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c9ae1d3_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ec5110_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b22be8e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d2f4720_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@360c6c3a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b8f2c5f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f9c102b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@775e0633_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f3c8ec8_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ebfd9af_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@333bea01_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38f6039e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@630e7ddd_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@681b584_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52704c1c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@9c76339_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ecd9832_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62c51355_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33c2a81a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67172559_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4875800b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30a21855_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@785371ce_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42babd7e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b086e0b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f151e0b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41fbf95d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77204676_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74f95dba_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4305f851_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1449ad70_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b121a08_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8c6e2df_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d13112a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52ba3c88_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12547e88_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e3f2a54_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31556362_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31e3df6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e56c9b4_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@289c8c50_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bf49716_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a4a6ce0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@772b08e7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e3ffc3a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e3bc0a9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@637dbd6a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f4147de_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@101947e5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@477af30f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f73fc9f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34ff0329_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78899cc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@554a918_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@241a375a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22dc4404_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6de123ec_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7287b830_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c725ff9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41e7be83_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63637f0d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78449eeb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e4bf199_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1da4ae61_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ec7544b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@530214a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a7c2651_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35053e46_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4fbd5db0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6517fa84_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60f386c5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ba399c2_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@450607d7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7be691d3_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@298b5299_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b84ccfc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@243df900_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d78668_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a5f5942_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f789122_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b64c770_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35ac8af4_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67b13cf1_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4da7bbe9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33f394dc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7fe46479_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@467e72ac_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@765f3940_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a1839e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@148b4849_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26f2c33f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28337b24_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@272c31d6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@dcce7cb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5468b720_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7bb80315_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70528864_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8d249e2_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e15ebcd_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5adb2999_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17bf3b9d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5298e901_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77374440_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@600cd6fe_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60977175_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e134d0f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@150f631a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@642a54b6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@647046f9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e707467_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bab1e24_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78b17663_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@474fb827_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ba382e5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ebca5eb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37b069ad_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11d957f2_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34bf512b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f3b608a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1217fd3a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bd1d9cf_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fe465b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10c3a198_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a2e2b97_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c5be80d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e6b7f40_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b1f0b36_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6614bcd_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1aa741e5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54997883_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@420211f9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fe13d82_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@377ca287_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@972c92c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@345be9b0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d49bd57_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@463e379f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e78f9ea_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4efebda3_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@32af05b7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7eff42e5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d444f12_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b8e5de7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b8beb7b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c6ca82a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71fedbe6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62592ab9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a7d36d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d9e59bc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e19566_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c447c07_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72d87cd1_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c80e4a4_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5bf4803c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@749ee31d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ede55ca_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27e596d5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1256a534_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@490ffac9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@225aba0f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@782bbb34_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a56df85_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16b65f05_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e0af1ea_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@364cdd78_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e56bbf8_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d889658_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c79d961_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ad8a86d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e5a1184_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5940df75_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21cc06bb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@233f7d62_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7bb6390_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f51dae8_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67d1f679_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22c10df7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bfc5330_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47fbbdd5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59075463_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4dc44286_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2350e132_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b5a09e5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28720d15_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77b6b211_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1617978a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7aca0f9e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53933df7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7282237d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51d8a075_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27eb220c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@495a17b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a84a90d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2439aa36_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bf415_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f749ffd_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ffe246c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@787b4723_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19b176cc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50207d11_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3417ca18_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@263026c9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@283eec79_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a021957_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24fdbc1e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@598ec916_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@568617f0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4badfc5a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@9f7eec0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ccee38b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ec0714b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@160ccae8_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e97d13c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2abb1a99_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26f0bae1_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@330df10_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14871dc8_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59438993_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23df59ce_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33603ac7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60a7266b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18f5035_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10c18675_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d1c40b7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b62cdbc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f243d0f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@43170085_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a128556_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@533633ac_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d2484e1_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1045b110_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b864a6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b0a7eee_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17ec1f06_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3466fa02_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1817b1a3_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@228d54fa_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@689c370a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7fe4d6a9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3567df45_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2068952e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13a25aa_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25ed27e1_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11624c99_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2475ddbc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ffb82ae_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3eaf852_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@777c3c1f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c163544_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a065224_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ad3c55d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4deffc6e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17b2b8db_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c583fe0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@795c2840_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6129999a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62dccf6e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7743513f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c0cc03a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@224fd949_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a87264a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cf79421_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5aab64af_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@132e75a9_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39232f47_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2fdc33af_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e4d29ce_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@517d7a0a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51816dd6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c59635f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@693ea2fb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66f26fb4_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@389f47d1_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51517386_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@145ed379_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cdcd531_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2429a3f2_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@298b5d52_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ee8781c_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d92de72_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53160ded_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6720e2e6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@313ac341_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64243d9d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3037ce34_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d1a4fae_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f64137f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29ad6d8d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52ee61ce_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d7a5d6_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ebed316_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36d279e5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e18a602_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a0bea1b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47940761_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7940f568_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e7b6fcc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d494c1e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@666cc64f_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70569500_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bcdb572_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45c7a857_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15fdd09a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b47ceea_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c4b3270_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f424fbb_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57bacf78_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a54bba2_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51ede2f5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25c4281d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b144bea_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22877e2b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38936bc5_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63b09d10_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50f86047_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@771ae69_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7726b262_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5139b0ed_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@80f52ce_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@285b0759_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57e59bf2_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44ac0f3a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5024ca43_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b075147_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@68704993_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37540d21_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65fe5865_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b3d545b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52fe89d0_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@769fe881_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4816e387_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b506e97_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21ad0e0b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e4dc2ec_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6215806b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66c75f7a_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7fd80157_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b0a1ff7_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ed35bcc_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2573f0d_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@777c7e49_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b4ad9da_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5bd6a60e_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cc6fc8b_ARCHIVE_LOCATION">c:/Users/11827/Desktop/VUPRS_FPGA/vuprs_ip_repo/vuprs_adc_controller_2.0</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="35a63aa1"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="ed1368d5"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="76d17063"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="8416dd26"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="1aa4080e"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="449c02e9"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
