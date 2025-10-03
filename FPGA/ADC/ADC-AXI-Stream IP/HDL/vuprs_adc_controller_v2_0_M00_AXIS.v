@@ -153,7 +153,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	reg [WAIT_COUNT_BITS - 1: 0] init_count;  // wait counter. The master waits for the user defined number of clock cycles before initiating a transfer.
 	reg [WAIT_COUNT_BITS - 1: 0] fifo_reset_count;
 	
-	reg  							    axis_tvalid;  // streaming data valid
+	// reg  							    axis_tvalid;  // streaming data valid
 	reg  	                            axis_tlast;   // t_last
 	reg [C_M_AXIS_TDATA_WIDTH - 1 : 0] 	axis_tdata;    // FIFO implementation signals
 
@@ -356,7 +356,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 			mst_exec_state <= EXEC_STATE__IDLE;
 			init_count <= 0;
 			fifo_reset_count <= 0;
-			axis_tvalid <= LOW;
+			// axis_tvalid <= LOW;
 
 			module_ready <= TRUE;
 
@@ -368,7 +368,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 				EXEC_STATE__IDLE: begin
 
-					axis_tvalid <= LOW;
+					// axis_tvalid <= LOW;
 
 					if (one_frame_sampling_trigger_rising_edge) begin
 
@@ -390,7 +390,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 				EXEC_STATE__INIT_COUNTER: begin  // reset fifo
 
-					axis_tvalid <= LOW;
+					// axis_tvalid <= LOW;
 
 					if (init_count >= FIFO_RESET_CLOCK_COUNT + 1) begin
 
@@ -414,7 +414,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 				end
 
 				EXEC_STATE__SEND_STREAM: begin
-					axis_tvalid <= HIGH;
+					// axis_tvalid <= HIGH;
 					if (data_send_count >= current_sampling_points - 1 && `ONE_VALID_DATA_SEND_AT_THAT_TIME) begin
 						mst_exec_state <= EXEC_STATE__IDLE;
 					end

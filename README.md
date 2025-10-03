@@ -1,6 +1,10 @@
 # VUPRS - 声学高速数据处理板
 
-<img src="images/board.png" alt="PCB" style="width:600px; height:auto;" />  
+<img src="images/board.png" alt="PCB" style="width:1000px; height:auto;" />  
+
+### 文档链接
+
+[跳转到 `User Guide`](./UserGuide.md)
 
 ## 1. 硬件相关资源
 
@@ -225,32 +229,5 @@
 ### 3.2 `FPGA` 开发通用流程
 
 `FPGA` 的硬件设计流程和其他所有厂家的相同, 只需在 `VIVADO` 中进行即可.  
-
-### 3.3 `FPGA` 设计与地址分配
-
-`FPGA` 使用 `PCIe` 接口和 `RK3568` 通信, 本设计通过 `XDMA` 将 `PCIe` 事务映射到 `FPGA` 侧 `AXI-Full` 和 `AXI-Lite` 总线.  `AXI-Full` 总线控制 `DDR3` 的读写, `AXI-Lite` 总线对 `ADC` 采集模块和 `DMA` 模块进行控制, 可以完成定频, 定帧采样.  
-
-### 3.2.1 `Block Design`
-
-按照上述系统需求, 系统框图设计如下, 该设计已经时序收敛.  
-  
-<img src="images/FPGA-Block-Design.png" alt="框图设计" style="width:1000px; height:auto;" />  
-  
-### 3.2.2 `AXI` 总线地址分配
-
-主机通过 `PCIe` 接口访问 `FPGA` 侧 `AXI-Full` 和 `AXI-Lite` 总线. `AXI-Full` 总线可以访问 `DDR3` 的全部数据 (`512 M`); `AXI-Lite` 主要用于控制 `FPGA` 侧的采集和数据传递过程, 可以访问相关寄存器.  
-`AXI-Lite` 总线的 `BAR` 地址为 `0x4000_0000`, 在主机侧需要对应设置该值.  
-  
-`AXI` 总线 (包括 `AXI-Full` 和 `AXI-Lite`) 的有效地址范围为 `0x4000_000 - 0xA000_0000`, 这个范围中每一段地址分配如下:  
-
-| 起始地址 | 结束地址 | 大小 | 用途 |
-| :--- | :---: | :---: | :---|
-| `0x0000_0000` | `0x3FFF_FFFF` | `-` | `Reserve` |
-| `0x4000_0000` | `0x4000_FFFF` | `64 k` | `DMA` 模块控制器地址范围 |
-| `0x4001_0000` | `0x4001_FFFF` | `64 k` | `ADC` 模块控制器地址范围 |
-| `0x4002_0000` | `0x7FFF_FFFF` | `-` | `Reserve` |
-| `0x8000_0000` | `0x9FFF_FFFF` | `512 M` | `DDR3` 地址范围,  `ADC` 采样数据从该地址处读取 |
-  
-<img src="images/FPGA-Address.png" alt="地址分配" style="width:500px; height:auto;" />  
 
 _Shixuan Liu 2025_
