@@ -25,6 +25,7 @@
 		output wire [C_S_AXI_DATA_WIDTH-1 : 0] sampling_points,  /* sampling points */
 
 		output wire one_frame_sampling_trigger,                 /* sampling trigger */
+		output wire last_frame,                                 /* indicate this is the last frame */
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -172,13 +173,16 @@
 	reg [C_S_AXI_DATA_WIDTH-1 : 0] generated_frames_count = 0;
 
 	reg [2: 0] frame_state = FRAME_STATE__IDLE;
+
+	reg last_frame_reg = FALSE;
 	
 	/* output signal */
 
 	assign one_frame_sampling_trigger = sampling_trigger_control;
 	assign sampling_clk_increment = sampling_clk_increment_reg;
 	assign sampling_points = sampling_points_reg;
-
+	assign last_frame = last_frame_reg;
+	
 	reg frame_have_triggered;
 
 	/* ------------------------------------------------------------------ */
@@ -574,17 +578,22 @@
 
 	always @(posedge S_AXI_ACLK) begin
 		if (!S_AXI_ARESETN) begin
+
 			generated_frames_count <= 0;
 			frame_have_triggered <= FALSE;
 			sampling_trigger_control <= LOW;
 			slv_reg3 <= 0;
+			last_frame_reg <= FALSE;
+
 		end else begin
+
 			case (frame_state)
 
 				FRAME_STATE__IDLE: begin
 					generated_frames_count <= 0;
 					frame_have_triggered <= FALSE;
 					sampling_trigger_control <= LOW;
+					last_frame_reg <= FALSE;
 
 					if (sampling_frames_reg > 0 && 
 						sampling_points_reg > 0 && 
@@ -603,6 +612,11 @@
 						end else begin
 							sampling_trigger_control <= HIGH;  // make a rising edge
 							frame_have_triggered <= TRUE;
+							if (generated_frames_count >= sampling_frames_reg - 1) begin
+								last_frame_reg <= TRUE;
+							end else begin
+								last_frame_reg <= FALSE;
+							end
 						end
 					end
 				end
@@ -629,9 +643,11 @@
 					frame_have_triggered <= FALSE;
 					sampling_trigger_control <= LOW;
 					slv_reg3[0] <= FALSE;
+					last_frame_reg <= FALSE;
 				end
 
 			endcase
+
 		end
 	end
 

@@ -1,14 +1,14 @@
-# VUPRS - 声学高速数据处理板
+# VUPRS - 声学高速数据处理模块软件支持仓库
 
 <img src="images/board.png" alt="PCB" style="width:1000px; height:auto;" />  
 
-### 文档链接
+### 其他文档链接
 
 [跳转到 `User Guide`](./UserGuide.md)
 
 ## 1. 硬件相关资源
 
-本仓库是车下异响故障识别与定位系统 `(Vehicle-Under Fault Positioning and Recognition System, VUPRS)` 的硬件研发仓库, 主要用于管理相关依赖, 并整理代码.  
+本仓库是车下异响故障识别与定位系统 `(Vehicle-Under Fault Positioning and Recognition System, VUPRS)` 的软硬件研发仓库, 主要用于管理相关依赖和整理代码.  
 
 ### 1.1 硬件模块
 

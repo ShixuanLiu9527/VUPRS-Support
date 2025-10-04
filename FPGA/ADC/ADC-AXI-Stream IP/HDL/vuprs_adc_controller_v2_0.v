@@ -106,6 +106,7 @@
 	wire [C_S00_AXI_DATA_WIDTH - 1: 0] sampling_clk_increment;
 	wire [C_S00_AXI_DATA_WIDTH - 1: 0] sampling_points;
 	wire one_frame_sampling_trigger;
+	wire last_frame;
 
 // Instantiation of Axi Bus Interface S00_AXI
 	vuprs_adc_controller_v2_0_S00_AXI # ( 
@@ -115,11 +116,16 @@
 		.USR_CLK_CYCLE_NS(USR_CLK_CYCLE_NS)
 	) vuprs_adc_controller_v2_0_S00_AXI_inst (
 
-		.adc_module_ready(ready),                            // internal connection
-		.adc_module_error_flag(err_flags),                   // internal connection
-		.sampling_clk_increment(sampling_clk_increment),     // internal connection
-		.sampling_points(sampling_points),                   // internal connection
-		.one_frame_sampling_trigger(one_frame_sampling_trigger),                 // internal connection
+		/* Internal Connection */
+
+		.adc_module_ready(ready),
+		.adc_module_error_flag(err_flags),
+		.sampling_clk_increment(sampling_clk_increment),
+		.sampling_points(sampling_points),
+		.one_frame_sampling_trigger(one_frame_sampling_trigger),
+		.last_frame(last_frame),
+
+		/* AXI-Lite Interface */
 
 		.S_AXI_ACLK(s00_axi_aclk),
 		.S_AXI_ARESETN(s00_axi_aresetn),
@@ -151,59 +157,64 @@
 		.C_M_START_COUNT(C_M00_AXIS_START_COUNT),
 		.C_M_AXIS_BUFFER_SIZE(C_M_AXIS_BUFFER_SIZE),
 
-		.USR_CLK_CYCLE_NS(USR_CLK_CYCLE_NS),                      /* unit: ns, clock cycle of [usr_clk] (e.g. 20 ns for 50 MHz) */
-        .T_CYCLE_NS(T_CYCLE_NS),                    /* unit: ns, t_cycle of AD7606 (refer to data sheet) */
-        .T_RESET_NS(T_RESET_NS),                      /* unit: ns, t_reset of AD7606 (refer to data sheet) */
-        .T_CONV_MIN_NS(T_CONV_MIN_NS),                    /* unit: ns, min t_conv of AD7606 (refer to data sheet) */
-        .T_CONV_MAX_NS(T_CONV_MAX_NS),                    /* unit: ns, max t_conv of AD7606 (refer to data sheet) */
-        .T1_NS(T1_NS),                      /* unit: ns, t1 of AD7606 (refer to data sheet) */
-        .T2_NS(T2_NS),                      /* unit: ns, t2 of AD7606 (refer to data sheet) */
+		.USR_CLK_CYCLE_NS(USR_CLK_CYCLE_NS),  /* unit: ns, clock cycle of [usr_clk] (e.g. 20 ns for 50 MHz) */
+        .T_CYCLE_NS(T_CYCLE_NS),              /* unit: ns, t_cycle of AD7606 (refer to data sheet) */
+        .T_RESET_NS(T_RESET_NS),              /* unit: ns, t_reset of AD7606 (refer to data sheet) */
+        .T_CONV_MIN_NS(T_CONV_MIN_NS),        /* unit: ns, min t_conv of AD7606 (refer to data sheet) */
+        .T_CONV_MAX_NS(T_CONV_MAX_NS),        /* unit: ns, max t_conv of AD7606 (refer to data sheet) */
+        .T1_NS(T1_NS),                        /* unit: ns, t1 of AD7606 (refer to data sheet) */
+        .T2_NS(T2_NS),                        /* unit: ns, t2 of AD7606 (refer to data sheet) */
         .T10_NS(T10_NS),                      /* unit: ns, t10 of AD7606 (refer to data sheet) */
         .T11_NS(T11_NS),                      /* unit: ns, t11 of AD7606 (refer to data sheet) */
         .T14_NS(T14_NS),                      /* unit: ns, t14 of AD7606 (refer to data sheet) */
-        .T15_NS(T15_NS),                       /* unit: ns, t15 of AD7606 (refer to data sheet) */
+        .T15_NS(T15_NS),                      /* unit: ns, t15 of AD7606 (refer to data sheet) */
         .T26_NS(T26_NS),                      /* unit: ns, t15 of AD7606 (refer to data sheet) */
 
 		.CONTROL_REGISTER_WIDTH(C_S00_AXI_DATA_WIDTH) // internal connection
 
 	) vuprs_adc_controller_v2_0_M00_AXIS_inst (
 
-		.error_flags(err_flags),  // internal connection
-	
-		.sampling_clk_increment(sampling_clk_increment),  // internal connection
-		.sampling_points(sampling_points),     // internal connection
+		/* Internal Connection */
 
-		.one_frame_sampling_trigger(one_frame_sampling_trigger),   // internal connection
-		.ready(ready),                         // internal connection
+		.error_flags(err_flags),
+		.sampling_clk_increment(sampling_clk_increment),
+		.sampling_points(sampling_points),
+		.one_frame_sampling_trigger(one_frame_sampling_trigger),
+		.ready(ready),
+		.last_frame(last_frame),
+
+		/* ADC Hardware Pins */
+
 		.adc_clk(adc_clk),
-		.rst_n(adc_rst_n),
+		.adc_rst_n(adc_rst_n),
 
-		.adc_a_hw_busy(adc_a_hw_busy),                       /* BUSY pin of the AD7606 chip */
-    	.adc_a_hw_first_data(adc_a_hw_first_data),                 /* FIRSTDATA pin of the AD7606 chip */
-    	.adc_a_hw_data(adc_a_hw_data),                       /* D0 - D15 Pins of the AD7606 chip */
-    	.adc_a_hw_convst(adc_a_hw_convst),                     /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
-    	.adc_a_hw_rd(adc_a_hw_rd),                         /* RD# pin of the AD7606 chip */
-    	.adc_a_hw_cs(adc_a_hw_cs),                         /* CS# pin of the AD7606 chip */
-    	.adc_a_hw_range(adc_a_hw_range),                      /* RANGE pin of the AD7606 chip */
-    	.adc_a_hw_os(adc_a_hw_os),                         /* OS0 - OS2 pins of the AD7606 chip (Not used) */
-    	.adc_a_hw_mode_select(adc_a_hw_mode_select),                /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
-    	.adc_a_hw_reset(adc_a_hw_reset),                      /* RESET pin of the AD7606 chip */
-    	.adc_a_hw_stby_n(adc_a_hw_stby_n),                     /* STBY# pin of the AD7606 */
+		.adc_a_hw_busy(adc_a_hw_busy),                 /* BUSY pin of the AD7606 chip */
+    	.adc_a_hw_first_data(adc_a_hw_first_data),     /* FIRSTDATA pin of the AD7606 chip */
+    	.adc_a_hw_data(adc_a_hw_data),                 /* D0 - D15 Pins of the AD7606 chip */
+    	.adc_a_hw_convst(adc_a_hw_convst),             /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
+    	.adc_a_hw_rd(adc_a_hw_rd),                     /* RD# pin of the AD7606 chip */
+    	.adc_a_hw_cs(adc_a_hw_cs),                     /* CS# pin of the AD7606 chip */
+    	.adc_a_hw_range(adc_a_hw_range),               /* RANGE pin of the AD7606 chip */
+    	.adc_a_hw_os(adc_a_hw_os),                     /* OS0 - OS2 pins of the AD7606 chip (Not used) */
+    	.adc_a_hw_mode_select(adc_a_hw_mode_select),   /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
+    	.adc_a_hw_reset(adc_a_hw_reset),               /* RESET pin of the AD7606 chip */
+    	.adc_a_hw_stby_n(adc_a_hw_stby_n),             /* STBY# pin of the AD7606 */
 
-		.adc_b_hw_busy(adc_b_hw_busy),                       /* BUSY pin of the AD7606 chip */
-    	.adc_b_hw_first_data(adc_b_hw_first_data),                 /* FIRSTDATA pin of the AD7606 chip */
-    	.adc_b_hw_data(adc_b_hw_data),                       /* D0 - D15 Pins of the AD7606 chip */
-    	.adc_b_hw_convst(adc_b_hw_convst),                     /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
-    	.adc_b_hw_rd(adc_b_hw_rd),                         /* RD# pin of the AD7606 chip */
-    	.adc_b_hw_cs(adc_b_hw_cs),                         /* CS# pin of the AD7606 chip */
-    	.adc_b_hw_range(adc_b_hw_range),                      /* RANGE pin of the AD7606 chip */
-    	.adc_b_hw_os(adc_b_hw_os),                         /* OS0 - OS2 pins of the AD7606 chip (Not used) */
-    	.adc_b_hw_mode_select(adc_b_hw_mode_select),                /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
-    	.adc_b_hw_reset(adc_b_hw_reset),                      /* RESET pin of the AD7606 chip */
-    	.adc_b_hw_stby_n(adc_b_hw_stby_n),                     /* STBY# pin of the AD7606 */
+		.adc_b_hw_busy(adc_b_hw_busy),                 /* BUSY pin of the AD7606 chip */
+    	.adc_b_hw_first_data(adc_b_hw_first_data),     /* FIRSTDATA pin of the AD7606 chip */
+    	.adc_b_hw_data(adc_b_hw_data),                 /* D0 - D15 Pins of the AD7606 chip */
+    	.adc_b_hw_convst(adc_b_hw_convst),             /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
+    	.adc_b_hw_rd(adc_b_hw_rd),                     /* RD# pin of the AD7606 chip */
+    	.adc_b_hw_cs(adc_b_hw_cs),                     /* CS# pin of the AD7606 chip */
+    	.adc_b_hw_range(adc_b_hw_range),               /* RANGE pin of the AD7606 chip */
+    	.adc_b_hw_os(adc_b_hw_os),                     /* OS0 - OS2 pins of the AD7606 chip (Not used) */
+    	.adc_b_hw_mode_select(adc_b_hw_mode_select),   /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
+    	.adc_b_hw_reset(adc_b_hw_reset),               /* RESET pin of the AD7606 chip */
+    	.adc_b_hw_stby_n(adc_b_hw_stby_n),             /* STBY# pin of the AD7606 */
+
+		/* AXI-Stream Interface */
 
 		.M_AXIS_TKEEP(m00_axis_tkeep),
-
 		.M_AXIS_ACLK(m00_axis_aclk),
 		.M_AXIS_ARESETN(m00_axis_aresetn),
 		.M_AXIS_TVALID(m00_axis_tvalid),

@@ -3,7 +3,7 @@
 module vuprs_adc_controller_v2_0_M00_AXIS #
 (
 		
-	parameter integer USR_CLK_CYCLE_NS   = 20,                      /* unit: ns, clock cycle of [usr_clk] (e.g. 20 ns for 50 MHz) */
+	parameter integer USR_CLK_CYCLE_NS   = 20,                      /* unit: ns, clock cycle of [adc_clk] (e.g. 20 ns for 50 MHz) */
               		  T_CYCLE_NS         = 5000,                    /* unit: ns, t_cycle of AD7606 (refer to data sheet) */
           	  		  T_RESET_NS         = 50,                      /* unit: ns, t_reset of AD7606 (refer to data sheet) */
           	  		  T_CONV_MIN_NS      = 3450,                    /* unit: ns, min t_conv of AD7606 (refer to data sheet) */
@@ -16,7 +16,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
           	  		  T15_NS             = 6,                       /* unit: ns, t15 of AD7606 (refer to data sheet) */
           	  		  T26_NS             = 25,                      /* unit: ns, t15 of AD7606 (refer to data sheet) */
 
-	parameter CONTROL_REGISTER_WIDTH = 32,                  /* control register width */
+	parameter integer CONTROL_REGISTER_WIDTH = 32,                  /* control register width */
 
 	// Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.
 
@@ -30,65 +30,84 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 )
 (
-	// Users to add ports here
 	
+	output wire [CONTROL_REGISTER_WIDTH - 1: 0]  error_flags,
+	output wire                                  ready,
+	
+	input wire [CONTROL_REGISTER_WIDTH - 1: 0]   sampling_clk_increment,
+	input wire [CONTROL_REGISTER_WIDTH - 1: 0]   sampling_points,
+	input wire                                   last_frame,
+
+	input wire                                   one_frame_sampling_trigger, /* rising edge to trigger */
+	input wire                                   adc_clk,                    /* clock for ADC, 100 MHz or 50 MHz */
+	input wire                                   adc_rst_n,                  /* reset signal for ADC */
+
+	/* ---------------------------------- ADC-A hardware signals -------------------------------------------- */
+	
+	input wire          adc_a_hw_busy,        /* BUSY pin of the AD7606 chip */
+    input wire          adc_a_hw_first_data,  /* FIRSTDATA pin of the AD7606 chip */
+    input wire [15: 0]  adc_a_hw_data,        /* D0 - D15 Pins of the AD7606 chip */
+
+    output wire         adc_a_hw_convst,      /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
+    output wire         adc_a_hw_rd,          /* RD# pin of the AD7606 chip */
+    output wire         adc_a_hw_cs,          /* CS# pin of the AD7606 chip */
+    output wire         adc_a_hw_range,       /* RANGE pin of the AD7606 chip */
+    output wire [2: 0]  adc_a_hw_os,          /* OS0 - OS2 pins of the AD7606 chip (Not used) */
+    output wire         adc_a_hw_mode_select, /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
+    output wire         adc_a_hw_reset,       /* RESET pin of the AD7606 chip */
+    output wire         adc_a_hw_stby_n,      /* STBY# pin of the AD7606 */
+
+	/* ---------------------------------- ADC-B hardware signals -------------------------------------------- */
+
+	input wire          adc_b_hw_busy,        /* BUSY pin of the AD7606 chip */
+    input wire          adc_b_hw_first_data,  /* FIRSTDATA pin of the AD7606 chip */
+    input wire [15: 0]  adc_b_hw_data,        /* D0 - D15 Pins of the AD7606 chip */
+
+    output wire         adc_b_hw_convst,      /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
+    output wire         adc_b_hw_rd,          /* RD# pin of the AD7606 chip */
+    output wire         adc_b_hw_cs,          /* CS# pin of the AD7606 chip */
+    output wire         adc_b_hw_range,       /* RANGE pin of the AD7606 chip */
+    output wire [2: 0]  adc_b_hw_os,          /* OS0 - OS2 pins of the AD7606 chip (Not used) */
+    output wire         adc_b_hw_mode_select, /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
+    output wire         adc_b_hw_reset,       /* RESET pin of the AD7606 chip */
+    output wire         adc_b_hw_stby_n,      /* STBY# pin of the AD7606 */
+
+	/* ---------------------------------- AXI-Stream Interface -------------------------------------------- */
+
 	output wire [(C_M_AXIS_TDATA_WIDTH / 8) - 1: 0] M_AXIS_TKEEP,
-	output wire [CONTROL_REGISTER_WIDTH - 1: 0] error_flags,
-	
-	input wire [CONTROL_REGISTER_WIDTH - 1: 0] sampling_clk_increment,
-	input wire [CONTROL_REGISTER_WIDTH - 1: 0] sampling_points,
+	input wire                                      M_AXIS_ACLK,
+	input wire                                      M_AXIS_ARESETN,
 
-	input wire          one_frame_sampling_trigger,              /* rising edge to trigger one sample */
-	input wire          adc_clk,                                 /* clock for ADC, 100 MHz or 50 MHz */
-	output wire         ready,
-	input wire          rst_n,
+	/* 
+	   Master Stream Ports. 
+	   TVALID indicates that the master is driving a valid transfer, 
+	   A transfer takes place when both TVALID and TREADY are asserted. 
+	*/
 
-	/* ADC-A hardware signals */
-	
-	input wire          adc_a_hw_busy,                       /* BUSY pin of the AD7606 chip */
-    input wire          adc_a_hw_first_data,                 /* FIRSTDATA pin of the AD7606 chip */
-    input wire [15: 0]  adc_a_hw_data,                       /* D0 - D15 Pins of the AD7606 chip */
+	output wire                                     M_AXIS_TVALID,
 
-    output wire         adc_a_hw_convst,                     /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
-    output wire         adc_a_hw_rd,                         /* RD# pin of the AD7606 chip */
-    output wire         adc_a_hw_cs,                         /* CS# pin of the AD7606 chip */
-    output wire         adc_a_hw_range,                      /* RANGE pin of the AD7606 chip */
-    output wire [2: 0]  adc_a_hw_os,                         /* OS0 - OS2 pins of the AD7606 chip (Not used) */
-    output wire         adc_a_hw_mode_select,                /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
-    output wire         adc_a_hw_reset,                      /* RESET pin of the AD7606 chip */
-    output wire         adc_a_hw_stby_n,                     /* STBY# pin of the AD7606 */
+	/* 
+	   TDATA is the primary payload that is used to provide the 
+	   data that is passing across the interface from the master. 
+	*/
 
-	input wire          adc_b_hw_busy,                       /* BUSY pin of the AD7606 chip */
-    input wire          adc_b_hw_first_data,                 /* FIRSTDATA pin of the AD7606 chip */
-    input wire [15: 0]  adc_b_hw_data,                       /* D0 - D15 Pins of the AD7606 chip */
+	output wire [C_M_AXIS_TDATA_WIDTH - 1: 0]       M_AXIS_TDATA,
 
-	/* ADC-B hardware signals */
+	/* 
+	   TSTRB is the byte qualifier that indicates 
+	   whether the content of the associated byte of TDATA is 
+	   processed as a data byte or a position byte. 
+	*/
 
-    output wire         adc_b_hw_convst,                     /* CONVST pin of the AD7606 chip (CONVRST_A and CONVRST_B are connected together) */
-    output wire         adc_b_hw_rd,                         /* RD# pin of the AD7606 chip */
-    output wire         adc_b_hw_cs,                         /* CS# pin of the AD7606 chip */
-    output wire         adc_b_hw_range,                      /* RANGE pin of the AD7606 chip */
-    output wire [2: 0]  adc_b_hw_os,                         /* OS0 - OS2 pins of the AD7606 chip (Not used) */
-    output wire         adc_b_hw_mode_select,                /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
-    output wire         adc_b_hw_reset,                      /* RESET pin of the AD7606 chip */
-    output wire         adc_b_hw_stby_n,                     /* STBY# pin of the AD7606 */
-
-	// User ports ends
-	// Do not modify the ports beyond this line
-	// Global ports
-	input wire  M_AXIS_ACLK,
-	// 
-	input wire  M_AXIS_ARESETN,
-	// Master Stream Ports. TVALID indicates that the master is driving a valid transfer, A transfer takes place when both TVALID and TREADY are asserted. 
-	output wire  M_AXIS_TVALID,
-	// TDATA is the primary payload that is used to provide the data that is passing across the interface from the master.
-	output wire [C_M_AXIS_TDATA_WIDTH - 1: 0] M_AXIS_TDATA,
-	// TSTRB is the byte qualifier that indicates whether the content of the associated byte of TDATA is processed as a data byte or a position byte.
 	output wire [(C_M_AXIS_TDATA_WIDTH / 8) - 1: 0] M_AXIS_TSTRB,
-	// TLAST indicates the boundary of a packet.
-	output wire  M_AXIS_TLAST,
-	// TREADY indicates that the slave can accept a transfer in the current cycle.
-	input wire  M_AXIS_TREADY
+
+	/* TLAST indicates the boundary of a packet. */
+
+	output wire                                     M_AXIS_TLAST,
+
+	/* TREADY indicates that the slave can accept a transfer in the current cycle. */
+
+	input wire                                      M_AXIS_TREADY
 );
 	
 	// function called clogb2 that returns an integer which has the
@@ -118,6 +137,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 		The control state machine oversees the writing of input streaming data to the FIFO,
 		and outputs the streaming data from the FIFO
 	*/
+
 	localparam [1: 0] EXEC_STATE__IDLE = 2'b00,          // This is the initial/idle state               
 	                                                                                     
 	                  EXEC_STATE__INIT_COUNTER  = 2'b01, // This state initializes the counter, once
@@ -149,13 +169,14 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 	// AXI Stream internal signals
 
-	
 	reg [WAIT_COUNT_BITS - 1: 0] init_count;  // wait counter. The master waits for the user defined number of clock cycles before initiating a transfer.
 	reg [WAIT_COUNT_BITS - 1: 0] fifo_reset_count;
 	
-	// reg  							    axis_tvalid;  // streaming data valid
+	reg  							    axis_tvalid;  // streaming data valid
 	reg  	                            axis_tlast;   // t_last
 	reg [C_M_AXIS_TDATA_WIDTH - 1 : 0] 	axis_tdata;    // FIFO implementation signals
+
+	reg                                 last_frame_sync;
 
 	reg module_ready;
 
@@ -250,8 +271,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 			if (buffer_pointer == INVALID_BUFFER_POINTER) begin  // t_valid = LOW at that moment
 
-				if(!fifo_almost_empty) fifo_rd_en <= TRUE;
-				else fifo_rd_en <= FALSE;
+				/* if FIFO read enable at that time, push FIFO data to buffer */
 
 				if (fifo_rd_en) begin
 					send_buffer[0] <= current_fifo_read_data;
@@ -260,30 +280,41 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 					buffer_pointer <= buffer_pointer;
 				end
 
-			end 
+				/* Enable FIFO reading */
 
-			/* if buffer will be full, stop read */
+				if(!fifo_almost_empty) fifo_rd_en <= TRUE;
+				else fifo_rd_en <= FALSE;
 
-			else if (buffer_pointer <= C_M_AXIS_BUFFER_SIZE - 1) begin
+			end else if (buffer_pointer <= C_M_AXIS_BUFFER_SIZE - 1) begin
 
-				if (fifo_rd_en) begin
+				if (fifo_rd_en) begin  // the data must be push into buffer
+
+					/* FIFO read control */
 					
-					if (buffer_pointer >= C_M_AXIS_BUFFER_SIZE - 2) fifo_rd_en <= FALSE;  // stop read
-					else begin
+					if (buffer_pointer >= C_M_AXIS_BUFFER_SIZE - 2) begin
+						fifo_rd_en <= FALSE;  // this is the last data (pointer is C_M_AXIS_BUFFER_SIZE - 1), stop read
+					end else begin
 						if (!fifo_almost_empty) fifo_rd_en <= TRUE;  // continue read
 						else fifo_rd_en <= FALSE;
 					end
 
+					/* Update buffer */
 
 					for (i = 0; i <= C_M_AXIS_BUFFER_SIZE - 2; i = i + 1) begin
 						send_buffer[i + 1] <= send_buffer[i];
 					end
 					send_buffer[0] <= current_fifo_read_data;
+
+					/* Update pointer */
 					
 					if (!`ONE_VALID_DATA_SEND_AT_THAT_TIME) begin
 
 						if (buffer_pointer <= C_M_AXIS_BUFFER_SIZE - 2) buffer_pointer <= buffer_pointer + 1;
-						else buffer_over_flow <= TRUE;  // CRITICAL: BUFFER OVER FLOW !!!!!
+						else begin
+							/* buffer_pointer == C_M_AXIS_BUFFER_SIZE - 1, data must be send */
+							/* Buffer overflow */
+							buffer_over_flow <= TRUE;
+						end
 
 					end else begin
 
@@ -293,13 +324,15 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 				end else begin
 
-					/* start read */
+					/* Enable FIFO read signal */
 
 					if(!fifo_almost_empty) begin
 						if (buffer_pointer == C_M_AXIS_BUFFER_SIZE - 1) fifo_rd_en <= FALSE;  // cannot read any more
 						else fifo_rd_en <= TRUE;
 					end
 					else fifo_rd_en <= FALSE;
+
+					/* Update buffer pointer */
 
 					if (!`ONE_VALID_DATA_SEND_AT_THAT_TIME) begin
 						buffer_pointer <= buffer_pointer;  // do nothing for pointer
@@ -309,6 +342,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 					end
 
 				end
+
 			end
 
 			else begin
@@ -324,10 +358,12 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	always @(posedge M_AXIS_ACLK) begin
 		if (!M_AXIS_ARESETN) begin
 			current_sampling_points <= CONTROL_REGISTER_WIDTH;
+			last_frame_sync <= FALSE;
 		end else begin
 			if (mst_exec_state == EXEC_STATE__IDLE) begin
 				current_sampling_points <= sampling_points;
 			end
+			last_frame_sync <= last_frame;
 		end
 	end
 
@@ -356,7 +392,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 			mst_exec_state <= EXEC_STATE__IDLE;
 			init_count <= 0;
 			fifo_reset_count <= 0;
-			// axis_tvalid <= LOW;
+			axis_tvalid <= LOW;
 
 			module_ready <= TRUE;
 
@@ -368,7 +404,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 				EXEC_STATE__IDLE: begin
 
-					// axis_tvalid <= LOW;
+					axis_tvalid <= LOW;
 
 					if (one_frame_sampling_trigger_rising_edge) begin
 
@@ -390,7 +426,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 				EXEC_STATE__INIT_COUNTER: begin  // reset fifo
 
-					// axis_tvalid <= LOW;
+					axis_tvalid <= LOW;
 
 					if (init_count >= FIFO_RESET_CLOCK_COUNT + 1) begin
 
@@ -414,7 +450,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 				end
 
 				EXEC_STATE__SEND_STREAM: begin
-					// axis_tvalid <= HIGH;
+					axis_tvalid <= HIGH;
 					if (data_send_count >= current_sampling_points - 1 && `ONE_VALID_DATA_SEND_AT_THAT_TIME) begin
 						mst_exec_state <= EXEC_STATE__IDLE;
 					end
@@ -457,18 +493,26 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 						data_send_count <= data_send_count + 1;
 
 						/*
-							current_sampling_points - 1 number of data have been send, (current data is the last one)
+							current_sampling_points - 1 number of data have been send, 
+							(current data is the last one)
 							T_LAST should be HIGH to indicate last data
 						*/
 
 						if (data_send_count == current_sampling_points - 2) begin  
 
-							axis_tlast <= HIGH;
+							if (last_frame_sync) axis_tlast <= HIGH;
 
-						/* last data send successfully, T_LAST should be LOW */
+						/* 
+						   last data send successfully, 
+						   T_LAST should be LOW 
+						*/
 
 						end else if (data_send_count == current_sampling_points - 1) begin  // all data have been send
 
+							if (last_frame_sync) axis_tlast <= LOW;
+
+						end else begin
+							
 							axis_tlast <= LOW;
 
 						end
@@ -510,21 +554,21 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	/* sync 1 */
 
 	always @(posedge adc_clk) begin
-		if (!rst_n) sampling_clk_increment_sync <= 0;
+		if (!adc_rst_n) sampling_clk_increment_sync <= 0;
 		else if (mst_exec_state_sync == EXEC_STATE__IDLE) sampling_clk_increment_sync <= sampling_clk_increment;
 	end
 
 	/* sync 2 */
 
 	always @(posedge adc_clk) begin
-		if (!rst_n) mst_exec_state_sync <= EXEC_STATE__IDLE;
+		if (!adc_rst_n) mst_exec_state_sync <= EXEC_STATE__IDLE;
 		else mst_exec_state_sync <= mst_exec_state;
 	end
 
 	/* ---------------------------------------- AD sampling clock ---------------------------------------------- */
 
 	always @(posedge adc_clk) begin
-		if (!rst_n) begin
+		if (!adc_rst_n) begin
 			sampling_clk_counter <= 0;
 			sampling_clk <= LOW;
 		end else begin
@@ -553,7 +597,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 	always @(posedge adc_clk) begin
 
-	   	if (!rst_n) begin
+	   	if (!adc_rst_n) begin
 
 	        fifo_write_state <= FIFO_WRITE_STATE__IDLE;
 			adc_data_have_pushed <= FALSE;
@@ -599,7 +643,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	/* Registers */
 
 	always @(posedge adc_clk) begin
-	   	if (!rst_n) begin
+	   	if (!adc_rst_n) begin
 
 	        fifo_write_en <= FALSE;
 			current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
@@ -739,7 +783,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
         .usr_trigger(sampling_clk),                   /* Sample Enable, rising edge trigger, must be smaller than 100 kHz */
         .usr_clk(adc_clk),                       /* System Clock, corresponding to USR_CLK_CYCLE_NS  */
-        .usr_rst(rst_n),                       /* Reset this module, falling edge trigger */
+        .usr_rst(adc_rst_n),                       /* Reset this module, falling edge trigger */
 
         .usr_channel1(adc_a_ch1),                  /* Data of channel-V1, 16 bit */
         .usr_channel2(adc_a_ch2),                  /* Data of channel-V2, 16 bit */
@@ -794,7 +838,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
         .usr_trigger(sampling_clk),                   /* Sample Enable, rising edge trigger, must be smaller than 100 kHz */
         .usr_clk(adc_clk),                       /* System Clock, corresponding to USR_CLK_CYCLE_NS  */
-        .usr_rst(rst_n),                       /* Reset this module, falling edge trigger */
+        .usr_rst(adc_rst_n),                       /* Reset this module, falling edge trigger */
 
         .usr_channel1(adc_b_ch1),                  /* Data of channel-V1, 16 bit */
         .usr_channel2(adc_b_ch2),                  /* Data of channel-V2, 16 bit */
