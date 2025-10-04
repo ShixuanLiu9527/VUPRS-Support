@@ -2,11 +2,12 @@
 
 <img src="images/board.png" alt="PCB" style="width:1000px; height:auto;" />  
 
-### 其他文档链接
+## 其他文档链接
 
-[跳转到 `User Guide`](./UserGuide.md)
+[`FPGA` 编程手册 `Programming Manual - FPGA`](./DOC/UserGuide.md)
+[采集模块电路原理图](./DOC/VUPRS-Schematic.pdf)
 
-## 1. 硬件相关资源
+## 1. 模块硬件资源
 
 本仓库是车下异响故障识别与定位系统 `(Vehicle-Under Fault Positioning and Recognition System, VUPRS)` 的软硬件研发仓库, 主要用于管理相关依赖和整理代码.  
 
@@ -27,7 +28,7 @@
 | :--- | :--- | :--- |
 | `RK3568` 外挂 `SDRAM` | `K4U6E3S4AA-MGCL` | `LPDDR4X`, `16 GB` |
 | `RK3568` 外挂 `eMMC` | `KLMBG2JETD-B041` | `eMMC Flash`, `32 GB` |
-| `FPGA` 外挂 `SDRAM` | `NT5CC128M16IP-DI` | `DDR3L`, `2GB` |
+| `FPGA` 外挂 `SDRAM` | `NT5CC128M16IP-DI x2` | `DDR3L`, `512 MB` |
 | `FPGA` 固化配置 `Flash` | `W25Q128JVEQ` |  `SPI Flash`, `128 MB` |
 
 ### 1.2 通信接口

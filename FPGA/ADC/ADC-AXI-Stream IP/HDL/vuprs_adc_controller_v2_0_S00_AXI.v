@@ -20,12 +20,15 @@
 
 		input wire adc_module_ready,              /* sampling ready */
 		input wire [C_S_AXI_DATA_WIDTH-1 : 0] adc_module_error_flag,  /* error flag */
+		input wire adc_card_present_detect,
 		
 		output wire [C_S_AXI_DATA_WIDTH-1 : 0] sampling_clk_increment,  /* sampling clock increment */
 		output wire [C_S_AXI_DATA_WIDTH-1 : 0] sampling_points,  /* sampling points */
 
 		output wire one_frame_sampling_trigger,                 /* sampling trigger */
 		output wire last_frame,                                 /* indicate this is the last frame */
+		output wire fpga_sampling_led,
+		output wire fpga_adc_card_present_led,
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -182,6 +185,11 @@
 	assign sampling_clk_increment = sampling_clk_increment_reg;
 	assign sampling_points = sampling_points_reg;
 	assign last_frame = last_frame_reg;
+
+	/* led */
+
+	assign fpga_adc_card_present_led = ~adc_card_present_detect;
+	assign fpga_sampling_led = (frame_state != FRAME_STATE__IDLE);
 	
 	reg frame_have_triggered;
 

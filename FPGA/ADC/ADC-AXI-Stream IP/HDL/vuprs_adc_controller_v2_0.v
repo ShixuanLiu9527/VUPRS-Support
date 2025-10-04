@@ -34,6 +34,8 @@
 	(
 		// Users to add ports here
 
+		input wire adc_card_present_detect,
+
 		input wire          adc_rst_n,
 		input wire          adc_clk,
 	
@@ -62,6 +64,9 @@
     	output wire         adc_b_hw_mode_select,                /* PAR#/SER/BYTE_SEL pin of the AD7606 chip */
     	output wire         adc_b_hw_reset,                      /* RESET pin of the AD7606 chip */
     	output wire         adc_b_hw_stby_n,                     /* STBY# pin of the AD7606 */
+
+		output wire fpga_sampling_led,
+		output wire fpga_adc_card_present_led,
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -124,6 +129,10 @@
 		.sampling_points(sampling_points),
 		.one_frame_sampling_trigger(one_frame_sampling_trigger),
 		.last_frame(last_frame),
+
+		.adc_card_present_detect(adc_card_present_detect),
+		.fpga_sampling_led(fpga_sampling_led),
+		.fpga_adc_card_present_led(fpga_adc_card_present_led),
 
 		/* AXI-Lite Interface */
 

@@ -1,14 +1,15 @@
-# User Guide
+# Programming Manual - FPGA
 
 本文档是高速数据采集板编程指南, 记录了所有编程调试步骤.  
 
-## 1. `FPGA` 系统设计
+## 1. `FPGA` 侧系统设计与使用
 
 `FPGA` 使用 `PCIe` 接口和 `RK3568` 通信.  
 具体的, `FPGA` 通过 `XDMA IP` 将 `PCIe` 事务映射到 `FPGA` 侧 `AXI-Full` 和 `AXI-Lite` 总线.  
 
-    AXI-Full 总线负责 DDR3 的读写, 是主要数据通道  
-    AXI-Lite 总线负责配置 ADC 采集控制模块和 DMA 控制模块  
+    AXI-Full 总线负责 DDR3 的读写, 是主要数据通道
+
+    AXI-Lite 总线负责配置 ADC 采集控制模块和 DMA 控制模块
 
 系统可以完成定频/定帧采样.  
 
@@ -28,10 +29,10 @@
 
 | 起始地址 | 结束地址 | 大小 | 用途 |
 | :---: | :---: | :---: | :--- |
-| `0x0000_0000` | `0x3FFF_FFFF` | `-` | `Reserved` |
+| `0x0000_0000` | `0x3FFF_FFFF` | `-` | Reserved |
 | `0x4000_0000` | `0x4000_FFFF` | `64 k` | `DMA` 模块控制器地址范围 |
 | `0x4001_0000` | `0x4001_FFFF` | `64 k` | `ADC` 模块控制器地址范围 |
-| `0x4002_0000` | `0x7FFF_FFFF` | `-` | `Reserved` |
+| `0x4002_0000` | `0x7FFF_FFFF` | `-` | Reserved |
 | `0x8000_0000` | `0x9FFF_FFFF` | `512 M` | `DDR3` 地址范围,  `ADC` 采样数据从该地址处读取 |
   
 <img src="images/FPGA-Address.png" alt="地址分配" style="width:500px; height:auto;" />  
@@ -51,21 +52,21 @@
   
 | `Address` | `Name` | `R/W` | `Description` |
 | :--- | :--- | :--- | :--- |
-| `0x00` | `SCI` | `R/W` | `Sampling Clock Increment` |
-| `0x04` | `SP` | `R/W` | `Sampling Points` |
-| `0x08` | `SF` | `R/W` | `Sampling Frames` |
-| `0x0C` | `STR` | `R/W` | `Sampling Trigger & Ready` |
-| `0x10` | `NGF` | `R` | `Number of Generated Frames` |
-| `0x14` | `ERR` | `R` | `Error Flags of ADC` |
+| `0x00` | `SCI` | `R/W` | Sampling Clock Increment |
+| `0x04` | `SP` | `R/W` | Sampling Points |
+| `0x08` | `SF` | `R/W` | Sampling Frames |
+| `0x0C` | `STR` | `R/W` | Sampling Trigger & Ready |
+| `0x10` | `NGF` | `R` | Number of Generated Frames |
+| `0x14` | `ERR` | `R` | Error Flags of ADC |
   
 **寄存器详细信息**  
   
 **`SCI (Sampling Clock Increment, offset = 00h)`**  
   
-`ADC` 工作时钟通过外部高精度晶振输入, 在 `FPGA` 中被锁定为 `100 MHz`. `ADC` 采样触发时钟通过工作时钟分频得到, 该寄存器即设置分频系数, 采样频率 $f_{sampling}$ 和 周期 $T_{sampling}$ 与寄存器 `SCI` 取值的关系为:  
+`ADC` 工作时钟通过外部高精度晶振输入, 在 `FPGA` 中被锁定为 `50 MHz`. `ADC` 采样触发时钟通过工作时钟分频得到, 该寄存器即设置分频系数, 采样频率 $f_{sampling}$ 和 周期 $T_{sampling}$ 与寄存器 `SCI` 取值的关系为:  
   
-$$f_{sampling} = \frac{100 \times 10 ^ 6}{2 \times SCI}\ (Hz)$$
-$$T_{sampling} = 20 \times SCI\ (ns)$$
+$$f_{sampling} = \frac{50 \times 10 ^ 6}{2 \times SCI}\ (Hz)$$
+$$T_{sampling} = 40 \times SCI\ (ns)$$
   
 **`SP (Sampling Points, offset = 04h)`**  
   
@@ -110,28 +111,31 @@ $$ C_{sampling} \leq 512 MB $$
 | :---: | :---: | :--- |
 | `[3: 0]` | `ADC_A_ERR` | `ADC-A` 的硬件错误代码 |
 | `[7: 4]` | `ADC_B_ERR` | `ADC-B` 的硬件错误代码 |
-| `8` | `BOF` | `AXI-Stream` 接口缓冲区溢出错误 |
-| `9` | `ERR_POINTER` | `AXI-Stream` 接口缓冲区指针错误 |
+| `8` | `BOF` | `1` = `AXI-Stream` 接口缓冲区溢出错误;<br>`0` = 没有错误. |
+| `9` | `ERR_POINTER` | `1` = `AXI-Stream` 接口缓冲区指针错误;<br>`0` = 没有错误 |
 | `[31: 10]` | - | Reserved |
 
 `ADC` 硬件错误代码类型如下:  
-
-    0000: No Error, 当前没有错误
-    0001: Conversion Timeout, 模数转换超时
-    0010: FIRST_DATA Error Status, ADC 芯片 FIRST_DATA 引脚电平信号错误
-    0011: Internal Registers Error, ADC 控制器内部寄存器状态错误 (系统可能受到极强干扰)
-    0100: Sampling Timeout, 采样流程整体超时
-    0101: Unable to Start Sampling, 无法开启采样 (硬件可能损坏)
-    0110: Sampling Too Fast, 采样频率过高
+| Code | Name | Description |
+| :---: | :--- | :--- |
+| `0000` | No Error | 采样正常 |
+| `0001` | Conversion Timeout | 模数转换超时 |
+| `0010` | FIRST_DATA Error Status | 引脚 `FIRST_DATA` 电平信号错误:<br>`情况1` 在第 `1` 通道读取时不是高电平;<br>`情况2` 在其他通道读取时不是低电平. |
+| `0011` | Internal Registers Error | `ADC` 控制器内部寄存器状态错误, 系统可能受到极强干扰 |
+| `0100` | Sampling Timeout | 采样流程整体超时 |
+| `0101` | Unable to Start Sampling | 无法开启采样, `ADC` 芯片的 `Busy` 引脚没有自动拉高 |
+| `0110` | Sampling Too Fast | 采样频率设置过高, 无法满足定时采集 |
 
 #### 1.3.3 `ADC` 采集流程
 
 对于每一次采样, 请严格按照以下步骤操作 `ADC` 控制器中的寄存器 (在以下所有操作之前, 请确保开启了 `DMA` 转换, 否则数据无法写入 `DDR`):  
-
-    Step 1: 向 SCI 寄存器写入正确的分频系数;
-    Step 2: 向 SP 寄存器写入期望的采样点数;
-    Step 3: 向 SF 寄存器写入期望的采样帧数; 
-    Step 4: 读 STR 寄存器, 等待 STR[0] 被硬件置位;
-    Step 5: 向 STR 寄存器写入任意值, 开启采样;
-    Step 6: 读 STR 寄存器, 等待 STR[0] 被硬件置位, 采样完成;
-    Step 7: 获取 DDR 中的数据
+  
+`Step 1`: (等待上一次采样完成) 读 `STR` 寄存器, 等待 `STR[0]` 被硬件置位;  
+`Step 2`: 向 `SCI` 寄存器写入正确的分频系数;  
+`Step 3`: 向 `SP` 寄存器写入期望的采样点数;  
+`Step 4`: 向 `SF` 寄存器写入期望的采样帧数;  
+`Step 5`: 向 `STR` 寄存器写入任意值, 开启采样;  
+`Step 6`: (等待本次采样完成) 读 `STR` 寄存器, 等待 `STR[0]` 被硬件置位;  
+`Step 7`: 获取 `DDR` 中的数据.  
+  
+_Shixuan Liu 2025_
