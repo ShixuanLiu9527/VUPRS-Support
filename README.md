@@ -4,8 +4,8 @@
 
 ## 其他文档链接
 
-[`FPGA` 编程手册 `Programming Manual - FPGA`](./DOC/UserGuide.md)
-[采集模块电路原理图](./DOC/VUPRS-Schematic.pdf)
+[`FPGA` 编程手册 `Programming Manual - FPGA`](./DOC/UserGuide.md)  
+[采集模块电路原理图](./DOC/VUPRS-Schematic.pdf)  
 
 ## 1. 模块硬件资源
 
