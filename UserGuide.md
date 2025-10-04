@@ -74,9 +74,9 @@ $$T_{sampling} = 20 \times SCI\ (ns)$$
 **`SF (Sampling Frames, offset = 08h)`**  
   
 该寄存器的值是 `ADC` 的采样帧数目. 结合 `SP` 寄存器的值, 总采样点数 $N_{sampling}$ 通过下式计算:  
-$$ N_{sampling} = SP \times SF\ \ (points)$$
+$$ N_{sampling} = SP \times SF\ (points)$$
 每个采样点都会产生 `16` 个通道的 `16` 位 `ADC` 数据, 因此 $N_{sampling}$ 对应的数据字节数 $C_{sampling}$ 为:  
-$$ C_{sampling} = 32 \times N_{total}\ \ (bytes)$$
+$$ C_{sampling} = 32 \times N_{total}\ (bytes)$$
 请确保 `FPGA` 侧的 `DDR` 空间足够, 即:  
 $$ C_{sampling} \leq 512 MB $$
   
