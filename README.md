@@ -1,11 +1,13 @@
-# VUPRS - 声学高速数据处理模块软件支持仓库
-
+# **VUPRS Software Support Repository**
+# 车下故障诊断与定位系统高速数据处理模块软件支持仓库
+  
 <img src="images/board.png" alt="PCB" style="width:1000px; height:auto;" />  
+<img src="images/real-board.jpg" alt="PCB" style="width:1000px; height:auto;" />  
+  
+## 文档链接
 
-## 其他文档链接
-
-[`FPGA` 编程手册 `Programming Manual - FPGA`](./doc/UserGuide.md)  
-[采集模块电路原理图](./doc/VUPRS-Schematic.pdf)  
+[<编程手册>](./doc/UserGuide.md)  
+[<电路原理图>](./doc/VUPRS-Schematic.pdf)  
 
 ## 1. 模块硬件资源
 
@@ -150,9 +152,9 @@
 
 与 `FPGA` 通信的 `PCIe` 接口使用的是 `Xilinx XDMA`, 截止到 `2025` 年 `8` 月, `XDMA` 的驱动仍然只支持 `x86-64 bit` 架构的 `CPU`, 因此官方驱动不能直接用于本项目.  
 为了在 `RK3568` 上使用 `XDMA`, 这里使用了有关开发者修改后的 `XDMA` 驱动, 其中主要修改了 `long` 等数据类型并增加了一些程序补丁, 使该驱动在 `ARM` 架构下读写与 `x86` 架构下读写结果相同. 驱动来源:  
-
-    https://github.com/laurencebarker/Saturn.git
-
+  
+[https://github.com/laurencebarker/Saturn.git](https://github.com/laurencebarker/Saturn.git)
+  
 进入 `linuxdriver` 目录即可看到驱动源码.  
 拿到驱动后, 在虚拟机下修改 `tools/Makefile` 和 `xdma/Makefile`, 指定 `Linux` 内核源码路径和架构, 交叉编译器等即可 `make` 编译.  
 将编译好的驱动拉到板子里, 运行 `tests/.load_driver.sh` 挂载驱动 (请确认 `RK3568` 的设备树中已经开启了 `pcie3x2` 控制器), 然后运行 `tests/.run_test.sh` 测试读写, 运行 `tests/.perform_hwcount.sh` 可以测试读写速度.  

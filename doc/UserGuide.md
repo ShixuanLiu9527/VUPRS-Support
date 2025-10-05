@@ -1,4 +1,4 @@
-# Programming Manual - FPGA
+# VUPRS Programming Manual
 
 本文档是高速数据采集板编程指南, 记录了所有编程调试步骤.  
 
@@ -17,7 +17,7 @@
 
 按照系统实际需求, `FPGA` 系统框图设计如下, 当前提交的设计已经达到时序收敛.  
   
-<img src="images/FPGA-Block-Design.png" alt="框图设计" style="width:1000px; height:auto;" />  
+<img src="../images/FPGA-Block-Design.png" alt="框图设计" style="width:1000px; height:auto;" />  
   
 ### 1.2 `FPGA` 侧 `AXI` 总线地址分配
 
@@ -35,7 +35,7 @@
 | `0x4002_0000` | `0x7FFF_FFFF` | `-` | Reserved |
 | `0x8000_0000` | `0x9FFF_FFFF` | `512 M` | `DDR3` 地址范围,  `ADC` 采样数据从该地址处读取 |
   
-<img src="images/FPGA-Address.png" alt="地址分配" style="width:500px; height:auto;" />  
+<img src="../images/FPGA-Address.png" alt="地址分配" style="width:500px; height:auto;" />  
 
 ### 1.3 通过 `AXI` 总线控制 `FPGA` 完成采集
 
@@ -138,4 +138,31 @@ $$ C_{sampling} \leq 512 MB $$
 `Step 6`: (等待本次采样完成) 读 `STR` 寄存器, 等待 `STR[0]` 被硬件置位;  
 `Step 7`: 获取 `DDR` 中的数据.  
   
+## 2. 通过 `RK3568` 控制 `FPGA` 侧寄存器
+
+为了使用 `PCIe` 接口, 请在 `RK3568` 设备数中将相关节点 `enable`, 同时将 `Bitstream` 下载到 `FPGA`, 然后挂载 `xdma.ko` 驱动.  
+当 `xdma.ko` 驱动成功挂载到操作系统后, 该驱动会申请多个设备文件, 通过读写这些设备文件就能直接访问 `FPGA` 侧的寄存器.  
+该驱动会申请 `2` 个 `Host to Card (H2C)` 通道, 用于 `RK3568` 向 `FPGA` `AXI-Full` 总线设备传输数据:  
+
+    /dev/xdma0_h2c_0
+    /dev/xdma0_h2c_1
+
+同时, `2` 个 `Card to Host (C2H)` 通道, 用于 `RK3568` 从 `FPGA` `AXI-Full` 总线设备中读取数据:  
+
+    /dev/xdma0_c2h_0
+    /dev/xdma0_c2h_1
+
+同时, `1` 个 `Control` 通道, 用于访问 `AXI-Lite` 总线上的设备:
+
+    /dev/xdma0_control
+
+同时, `16` 个中断通道, 用于 `XDMA IP` 向主机发起中断:  
+
+    /dev/xdma_events_0
+    /dec/xdma_events_1
+
+    ... ...
+
+    /dev/xdma_events_15
+
 _Shixuan Liu 2025_
