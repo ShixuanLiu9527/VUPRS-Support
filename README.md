@@ -153,7 +153,7 @@
 与 `FPGA` 通信的 `PCIe` 接口使用的是 `Xilinx XDMA`, 截止到 `2025` 年 `8` 月, `XDMA` 的驱动仍然只支持 `x86-64 bit` 架构的 `CPU`, 因此官方驱动不能直接用于本项目.  
 为了在 `RK3568` 上使用 `XDMA`, 这里使用了有关开发者修改后的 `XDMA` 驱动, 其中主要修改了 `long` 等数据类型并增加了一些程序补丁, 使该驱动在 `ARM` 架构下读写与 `x86` 架构下读写结果相同. 驱动来源:  
   
-[https://github.com/laurencebarker/Saturn.git](https://github.com/laurencebarker/Saturn.git)
+[Saturn](https://github.com/laurencebarker/Saturn.git)
   
 进入 `linuxdriver` 目录即可看到驱动源码.  
 拿到驱动后, 在虚拟机下修改 `tools/Makefile` 和 `xdma/Makefile`, 指定 `Linux` 内核源码路径和架构, 交叉编译器等即可 `make` 编译.  
