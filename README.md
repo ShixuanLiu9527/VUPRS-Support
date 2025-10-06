@@ -6,8 +6,9 @@
   
 ## 文档链接
 
-[<编程手册>](./doc/UserGuide.md)  
-[<电路原理图>](./doc/VUPRS-Schematic.pdf)  
+[编程手册](./doc/UserGuide.md)  
+[电路原理图](./doc/VUPRS-Schematic.pdf)  
+[板端服务器代码仓库: vuprs-server](https://github.com/ShixuanLiu9527/vuprs-server.git)
 
 ## 1. 模块硬件资源
 
