@@ -140,23 +140,41 @@ $$ C_{sampling} \leq 512 MB $$
 
 ### 1.4 存储的数据帧格式
 
-`ADC` 数据帧由 `12` 个 `32 bit` 数据组成 (总共 `384 bits`/`48 bytes`), 当存储在 `DDR` 中时, 对于任意有效的, 并且指向一个数据帧开头的 `DDR` 偏移地址 `base`, 数据按字节地址排列为:  
+`ADC` 数据帧由 `18` 个 `32 bit` 数据组成 (总共 `576 bits`/`144 bytes`/`72 words`), 当存储在 `DDR` 中时, 对于任意有效的, 并且指向一个数据帧开头的 `DDR` 偏移地址 `base`, 数据按字节地址排列为:  
 
-| Address | data | Description |
-| :--- | :--- | :--- |
-| `[base + 3, base]` | `{ADC_VA2[15: 0], ADC_VA1[15: 0]}` | ADC Channel A2 & A1 |
-| `[base + 7, base + 4]` | `{ADC_VA4[15: 0], ADC_VA3[15: 0]}` | ADC Channel A4 & A3 |
-| `[base + 11, base + 8]` | `{ADC_VA6[15: 0], ADC_VA5[15: 0]}` | ADC Channel A6 & A5 |
-| `[base + 15, base + 12]` | `{ADC_VA8[15: 0], ADC_VA7[15: 0]}` | ADC Channel A8 & A7 |
-| `[base + 19, base + 16]` | `{ADC_VB2[15: 0], ADC_VB1[15: 0]}` | ADC Channel B2 & B1 |
-| `[base + 23, base + 20]` | `{ADC_VB4[15: 0], ADC_VB3[15: 0]}` | ADC Channel B4 & B3 |
-| `[base + 27, base + 24]` | `{ADC_VB6[15: 0], ADC_VB5[15: 0]}` | ADC Channel B6 & B5 |
-| `[base + 31, base + 28]` | `{ADC_VB8[15: 0], ADC_VB7[15: 0]}` | ADC Channel B8 & B7 |
-| `[base + 35, base + 32]` | `0xFFFFFFFF` | Interval 1 |
-| `[base + 39, base + 36]` | `{4'd7, 4'd6, 4'd5, 4'd4, 4'd3, 4'd2, 4'd1, 4'd0}` | Channel Order 1 |
-| `[base + 43, base + 40]` | `{4'd15, 4'd14, 4'd13, 4'd12, 4'd11, 4'd10, 4'd9, 4'd8}` | Channel Order 2 |
-| `[base + 47, base + 44]` | `0xFFFFFFFF` | Interval 2 |
+| Number | Address(bytes) | Name | data | Description |
+| :---: | :--- | :---: | :--- | :--- |
+| `0` | `[base + 3, base]` | `Header` | `0x0000FFF0` | Frame Header |
+| --- | --- | --- | --- | --- |
+| `1` | `[base + 7, base + 4]` | `D0` | `{ADC_VA1[15: 0], CRC_H, CRC_L}` | ADC Channel A1 & CRC |
+| `2` | `[base + 11, base + 8]` | `D1` | `{ADC_VA2[15: 0], CRC_H, CRC_L}` | ADC Channel A2 & CRC |
+| `3` | `[base + 15, base + 12]` | `D2` | `{ADC_VA3[15: 0], CRC_H, CRC_L}` | ADC Channel A3 & CRC |
+| `4` | `[base + 19, base + 16]` | `D3` | `{ADC_VA4[15: 0], CRC_H, CRC_L}` | ADC Channel A4 & CRC |
+| `5` | `[base + 23, base + 20]` | `D4` | `{ADC_VA5[15: 0], CRC_H, CRC_L}` | ADC Channel A5 & CRC |
+| `6` | `[base + 27, base + 24]` | `D5` | `{ADC_VA6[15: 0], CRC_H, CRC_L}` | ADC Channel A6 & CRC |
+| `7` | `[base + 31, base + 28]` | `D6` | `{ADC_VA7[15: 0], CRC_H, CRC_L}` | ADC Channel A7 & CRC |
+| `8` | `[base + 35, base + 32]` | `D7` | `{ADC_VA8[15: 0], CRC_H, CRC_L}` | ADC Channel A8 & CRC |
+| --- | --- | --- | --- | --- |
+| `9` | `[base + 39, base + 36]` | `D8` | `{ADC_VB1[15: 0], CRC_H, CRC_L}` | ADC Channel B1 & CRC |
+| `10` | `[base + 43, base + 40]` | `D9` | `{ADC_VB2[15: 0], CRC_H, CRC_L}` | ADC Channel B2 & CRC |
+| `11` | `[base + 47, base + 44]` | `D10` | `{ADC_VB3[15: 0], CRC_H, CRC_L}` | ADC Channel B3 & CRC |
+| `12` | `[base + 51, base + 48]` | `D11` | `{ADC_VB4[15: 0], CRC_H, CRC_L}` | ADC Channel B4 & CRC |
+| `13` | `[base + 55, base + 52]` | `D12` | `{ADC_VB5[15: 0], CRC_H, CRC_L}` | ADC Channel B5 & CRC |
+| `14` | `[base + 59, base + 56]` | `D13` | `{ADC_VB6[15: 0], CRC_H, CRC_L}` | ADC Channel B6 & CRC |
+| `15` | `[base + 63, base + 60]` | `D14` | `{ADC_VB7[15: 0], CRC_H, CRC_L}` | ADC Channel B7 & CRC |
+| `16` | `[base + 67, base + 64]` | `D15` | `{ADC_VB8[15: 0], CRC_H, CRC_L}` | ADC Channel B8 & CRC |
+| --- | --- | --- | --- | --- |
+| `17` | `[base + 71, base + 68]` | `Tailer` | `0x0000FF0F` | Frame Tailer |
   
+其中 `CRC` 校验使用的多项式为 `CRC8/SMBUS`:  
+
+    p(x) = 1+x^1+x^3+x^4+x^7+x^8
+
+二进制编码为 `0x9B`. 这里分别对 `ADC` 数据的高 `8` 位和低 `8` 位进行计算:  
+
+    CRC_H = CRC(ADC_V**[15: 8]);
+    CRC_L = CRC(ADC_V**[7: 0]);
+
 ## 2. 通过 `RK3568` 控制 `FPGA` 侧寄存器
 
 为了使用 `PCIe` 接口, 请在 `RK3568` 设备数中将相关节点 `enable`, 同时将 `Bitstream` 下载到 `FPGA`, 然后挂载 `xdma.ko` 驱动.  
