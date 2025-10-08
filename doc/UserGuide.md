@@ -137,6 +137,25 @@ $$ C_{sampling} \leq 512 MB $$
 `Step 5`: 向 `STR` 寄存器写入任意值, 开启采样;  
 `Step 6`: (等待本次采样完成) 读 `STR` 寄存器, 等待 `STR[0]` 被硬件置位;  
 `Step 7`: 获取 `DDR` 中的数据.  
+
+### 1.4 存储的数据帧格式
+
+`ADC` 数据帧由 `12` 个 `32 bit` 数据组成 (总共 `384 bits`/`48 bytes`), 当存储在 `DDR` 中时, 对于任意有效的, 并且指向一个数据帧开头的 `DDR` 偏移地址 `base`, 数据按字节地址排列为:  
+
+| Address | data | Description |
+| :--- | :--- | :--- |
+| `[base + 3, base]` | `{ADC_VA2[15: 0], ADC_VA1[15: 0]}` | ADC Channel A2 & A1 |
+| `[base + 7, base + 4]` | `{ADC_VA4[15: 0], ADC_VA3[15: 0]}` | ADC Channel A4 & A3 |
+| `[base + 11, base + 8]` | `{ADC_VA6[15: 0], ADC_VA5[15: 0]}` | ADC Channel A6 & A5 |
+| `[base + 15, base + 12]` | `{ADC_VA8[15: 0], ADC_VA7[15: 0]}` | ADC Channel A8 & A7 |
+| `[base + 19, base + 16]` | `{ADC_VB2[15: 0], ADC_VB1[15: 0]}` | ADC Channel B2 & B1 |
+| `[base + 23, base + 20]` | `{ADC_VB4[15: 0], ADC_VB3[15: 0]}` | ADC Channel B4 & B3 |
+| `[base + 27, base + 24]` | `{ADC_VB6[15: 0], ADC_VB5[15: 0]}` | ADC Channel B6 & B5 |
+| `[base + 31, base + 28]` | `{ADC_VB8[15: 0], ADC_VB7[15: 0]}` | ADC Channel B8 & B7 |
+| `[base + 35, base + 32]` | `0xFFFFFFFF` | Interval 1 |
+| `[base + 39, base + 36]` | `{4'd7, 4'd6, 4'd5, 4'd4, 4'd3, 4'd2, 4'd1, 4'd0}` | Channel Order 1 |
+| `[base + 43, base + 40]` | `{4'd15, 4'd14, 4'd13, 4'd12, 4'd11, 4'd10, 4'd9, 4'd8}` | Channel Order 2 |
+| `[base + 47, base + 44]` | `0xFFFFFFFF` | Interval 2 |
   
 ## 2. 通过 `RK3568` 控制 `FPGA` 侧寄存器
 
@@ -152,9 +171,13 @@ $$ C_{sampling} \leq 512 MB $$
     /dev/xdma0_c2h_0
     /dev/xdma0_c2h_1
 
-同时, `1` 个 `Control` 通道, 用于访问 `AXI-Lite` 总线上的设备:
+同时, `1` 个 `Control` 通道, 用于访问 `XDMA-DMA` 寄存器:
 
     /dev/xdma0_control
+
+同时, `1` 个 `User` 通道, 用于访问 `AXI-Lite` 总线上的寄存器:  
+
+    /dev/xdma0_user
 
 同时, `16` 个中断通道, 用于 `XDMA IP` 向主机发起中断:  
 

@@ -114,7 +114,7 @@
 	wire last_frame;
 
 // Instantiation of Axi Bus Interface S00_AXI
-	vuprs_adc_controller_v2_0_S00_AXI # ( 
+	vuprs_adc_controller_v2_0_S00_AXI # (
 		.C_S_AXI_DATA_WIDTH(C_S00_AXI_DATA_WIDTH),
 		.C_S_AXI_ADDR_WIDTH(C_S00_AXI_ADDR_WIDTH),
 		

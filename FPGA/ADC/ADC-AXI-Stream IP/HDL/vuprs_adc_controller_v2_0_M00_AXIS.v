@@ -183,7 +183,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	reg fifo_rd_en = FALSE;
 	wire [C_M_AXIS_TDATA_WIDTH - 1: 0] current_fifo_read_data;
 
-	reg [CONTROL_REGISTER_WIDTH - 1: 0] current_sampling_points;
+	reg [64 - 1: 0] current_sampling_data_points;
 
 	reg one_frame_sampling_trigger_sync1;
 	reg one_frame_sampling_trigger_sync2;
@@ -357,11 +357,11 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 	always @(posedge M_AXIS_ACLK) begin
 		if (!M_AXIS_ARESETN) begin
-			current_sampling_points <= CONTROL_REGISTER_WIDTH;
+			current_sampling_data_points <= 0;
 			last_frame_sync <= FALSE;
 		end else begin
 			if (mst_exec_state == EXEC_STATE__IDLE) begin
-				current_sampling_points <= sampling_points;
+				current_sampling_data_points <= sampling_points * 12;  /* 12 * 32 bit */
 			end
 			last_frame_sync <= last_frame;
 		end
@@ -451,7 +451,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 				EXEC_STATE__SEND_STREAM: begin
 					axis_tvalid <= HIGH;
-					if (data_send_count >= current_sampling_points - 1 && `ONE_VALID_DATA_SEND_AT_THAT_TIME) begin
+					if (data_send_count >= current_sampling_data_points - 1 && `ONE_VALID_DATA_SEND_AT_THAT_TIME) begin
 						mst_exec_state <= EXEC_STATE__IDLE;
 					end
 				end
@@ -493,12 +493,12 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 						data_send_count <= data_send_count + 1;
 
 						/*
-							current_sampling_points - 1 number of data have been send, 
+							current_sampling_data_points - 1 number of data have been send, 
 							(current data is the last one)
 							T_LAST should be HIGH to indicate last data
 						*/
 
-						if (data_send_count == current_sampling_points - 2) begin  
+						if (data_send_count == current_sampling_data_points - 2) begin  
 
 							if (last_frame_sync) axis_tlast <= HIGH;
 
@@ -507,7 +507,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 						   T_LAST should be LOW 
 						*/
 
-						end else if (data_send_count == current_sampling_points - 1) begin  // all data have been send
+						end else if (data_send_count == current_sampling_data_points - 1) begin  // all data have been send
 
 							if (last_frame_sync) axis_tlast <= LOW;
 
@@ -624,7 +624,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 			FIFO_WRITE_STATE__WRITE_FIFO: begin
 				
-				if (fifo_pushed_number >= 4'd7 && `ONE_VALID_DATA_PUSHED_IN_FIFO) begin
+				if (fifo_pushed_number >= 4'd11 && `ONE_VALID_DATA_PUSHED_IN_FIFO) begin
 
 					fifo_write_state <= FIFO_WRITE_STATE__IDLE;
 					adc_data_have_pushed <= TRUE;
@@ -724,7 +724,31 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
 									else fifo_write_en <= TRUE;
 								end
-								4'd7: begin  // all data have pushed, state jump
+								4'd7: begin  // (pushed 8) all data have pushed, then push interval
+									current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
+									
+									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
+									else fifo_write_en <= TRUE;
+								end
+								4'd8: begin  // (pushed 9) all data have pushed, then push channel info
+									current_fifo_write_data <= {4'd7, 4'd6, 4'd5, 4'd4, 4'd3, 4'd2, 4'd1, 4'd0};
+									
+									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
+									else fifo_write_en <= TRUE;
+								end
+								4'd9: begin  // (pushed 10) then push channel info
+									current_fifo_write_data <= {4'd15, 4'd14, 4'd13, 4'd12, 4'd11, 4'd10, 4'd9, 4'd8};
+									
+									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
+									else fifo_write_en <= TRUE;
+								end
+								4'd10: begin  // (pushed 11) then push interval
+									current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
+									
+									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
+									else fifo_write_en <= TRUE;
+								end
+								4'd11: begin  // (pushed 12) all data have pushed, state jump
 									fifo_write_en <= FALSE;
 									current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
 								end
