@@ -166,7 +166,7 @@ $$ C_{sampling} \leq 512 MB $$
 | --- | --- | --- | --- | --- |
 | `17` | `[base + 71, base + 68]` | `Tailer` | `0x0000FF0F` | Frame Tailer |
   
-其中 `CRC` 校验使用的多项式为 `CRC8/SMBUS`:  
+其中 `CRC` 校验使用的多项式为 `CRC8/CDMA2000`:  
 
     p(x) = 1+x^1+x^3+x^4+x^7+x^8
 

@@ -147,7 +147,8 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	                                        			 // stream data is output through M_AXIS_TDATA
 
 	localparam FIFO_WRITE_STATE__IDLE             = 3'd0,
-	           FIFO_WRITE_STATE__WRITE_FIFO       = 3'd1;
+			   FIFO_WRITE_STATE__CRC              = 3'd1,
+	           FIFO_WRITE_STATE__WRITE_FIFO       = 3'd2;
 
 	localparam INVALID_DATA                       = {(C_M_AXIS_TDATA_WIDTH){1'b1}};
 
@@ -162,6 +163,11 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 			   FALSE                              = 1'b0;
 
 	localparam INVALID_BUFFER_POINTER             = C_M_AXIS_BUFFER_SIZE + 1;
+
+	localparam FRAME_HEADER                       = 32'h0000_FFF0,
+			   FRAME_TAILER                       = 32'h0000_FF0F;
+
+	localparam FRAME_WORD_NUMBER                  = 18;
 
 	reg [1: 0] mst_exec_state;  // State variable
 	
@@ -222,6 +228,24 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	wire [15: 0] adc_b_ch6;
 	wire [15: 0] adc_b_ch7;
 	wire [15: 0] adc_b_ch8;
+
+	reg [15: 0] adc_a_ch1_crc;
+	reg [15: 0] adc_a_ch2_crc;
+	reg [15: 0] adc_a_ch3_crc;
+	reg [15: 0] adc_a_ch4_crc;
+	reg [15: 0] adc_a_ch5_crc;
+	reg [15: 0] adc_a_ch6_crc;
+	reg [15: 0] adc_a_ch7_crc;
+	reg [15: 0] adc_a_ch8_crc;
+
+	reg [15: 0] adc_b_ch1_crc;
+	reg [15: 0] adc_b_ch2_crc;
+	reg [15: 0] adc_b_ch3_crc;
+	reg [15: 0] adc_b_ch4_crc;
+	reg [15: 0] adc_b_ch5_crc;
+	reg [15: 0] adc_b_ch6_crc;
+	reg [15: 0] adc_b_ch7_crc;
+	reg [15: 0] adc_b_ch8_crc;
 	
 	wire adc_a_sampling;
 	wire adc_a_ready;
@@ -361,7 +385,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 			last_frame_sync <= FALSE;
 		end else begin
 			if (mst_exec_state == EXEC_STATE__IDLE) begin
-				current_sampling_data_points <= sampling_points * 12;  /* 12 * 32 bit */
+				current_sampling_data_points <= sampling_points * FRAME_WORD_NUMBER;  /* FRAME_WORD_NUMBER * 32 bit */
 			end
 			last_frame_sync <= last_frame;
 		end
@@ -545,11 +569,26 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	
 	reg [2: 0] fifo_write_state = FIFO_WRITE_STATE__IDLE;
 	
-	reg [3: 0] fifo_pushed_number = 4'd0;
+	reg [7: 0] fifo_pushed_number = 8'd0;
 	reg [C_M_AXIS_TDATA_WIDTH - 1: 0] current_fifo_write_data = INVALID_DATA;
 	
 	reg fifo_write_en = 1'b0;
 	reg adc_data_have_pushed = 1'b0;
+	reg crc_have_calculated = 1'b0;
+
+	wire [7: 0] crc_result_h;
+	wire [7: 0] crc_result_l;
+
+	reg [7: 0] crc_source_h;
+	reg [7: 0] crc_source_l;
+
+	reg crc_rst_n;
+	reg crc_rst_n_sync1;
+	reg crc_rst_n_sync2;
+
+	reg crc_en;
+
+	reg [7: 0] crc_calculated_channels = 0;
 
 	/* sync 1 */
 
@@ -564,6 +603,20 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 		if (!adc_rst_n) mst_exec_state_sync <= EXEC_STATE__IDLE;
 		else mst_exec_state_sync <= mst_exec_state;
 	end
+
+	/* sync 3 */
+
+	always @(posedge adc_clk) begin
+		if (!adc_rst_n) begin
+			crc_rst_n_sync1 <= HIGH;
+			crc_rst_n_sync2 <= HIGH;
+		end else begin
+			crc_rst_n_sync2 <= crc_rst_n_sync1;
+			crc_rst_n_sync1 <= crc_rst_n;
+		end
+	end
+
+	wire falling_edge_crc_rst_n = !(crc_rst_n_sync1) && crc_rst_n_sync2;  /* latency = 1 */
 
 	/* ---------------------------------------- AD sampling clock ---------------------------------------------- */
 
@@ -601,6 +654,7 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 	        fifo_write_state <= FIFO_WRITE_STATE__IDLE;
 			adc_data_have_pushed <= FALSE;
+			crc_have_calculated <= FALSE;
 	        
 	    end else begin
 
@@ -610,21 +664,31 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 			
 				if (!adc_a_sampling && !adc_b_sampling) begin  // sampling complete
 
-					if (!adc_data_have_pushed) fifo_write_state <= FIFO_WRITE_STATE__WRITE_FIFO;  // write the adc data to FIFO
+					if (!adc_data_have_pushed && !crc_have_calculated) begin
+						fifo_write_state <= FIFO_WRITE_STATE__CRC;  // write the adc data to FIFO
+					end
 					else fifo_write_state <= FIFO_WRITE_STATE__IDLE;
 
 				end else begin // sampling not complete, update adc_data_have_pushed flag
 
 					fifo_write_state <= FIFO_WRITE_STATE__IDLE;
 					adc_data_have_pushed <= FALSE;
+					crc_calculated_channels <= FALSE;
 
 				end
 
 			end
 
+			FIFO_WRITE_STATE__CRC: begin
+				if (crc_calculated_channels >= 8'd15) begin  /* calculated 16 jump */
+					fifo_write_state <= FIFO_WRITE_STATE__WRITE_FIFO;
+					crc_have_calculated <= TRUE;
+				end
+			end
+
 			FIFO_WRITE_STATE__WRITE_FIFO: begin
 				
-				if (fifo_pushed_number >= 4'd11 && `ONE_VALID_DATA_PUSHED_IN_FIFO) begin
+				if (fifo_pushed_number >= 8'd17 && `ONE_VALID_DATA_PUSHED_IN_FIFO) begin  /* Pushed 18, jump */
 
 					fifo_write_state <= FIFO_WRITE_STATE__IDLE;
 					adc_data_have_pushed <= TRUE;
@@ -647,7 +711,12 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 	        fifo_write_en <= FALSE;
 			current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
+
 			fifo_pushed_number <= 0;
+			crc_calculated_channels <= 0;
+
+			crc_rst_n <= HIGH;
+			crc_en <= TRUE;
 
 	    end else begin
 	       
@@ -655,12 +724,31 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 	       
 	           	FIFO_WRITE_STATE__IDLE: begin
 
-	                fifo_pushed_number <= 0;
+					crc_calculated_channels <= 0;
+
+					if (!adc_a_sampling && !adc_b_sampling && !adc_data_have_pushed && !crc_have_calculated) begin  // state jump situation
+
+						crc_source_h <= adc_a_ch1[15: 8];  /* ready to CRC */
+						crc_source_l <= adc_a_ch1[7: 0];
+
+						crc_rst_n <= LOW;  /* make falling edge */
+						crc_en <= TRUE;
+
+					end else begin
+						crc_rst_n <= HIGH;  
+						crc_en <= FALSE;
+					end
+
+	            end
+
+				FIFO_WRITE_STATE__CRC: begin
+
+					fifo_pushed_number <= 0;
 					fifo_write_en <= FALSE;
 
-					if (!adc_a_sampling && !adc_b_sampling && !adc_data_have_pushed) begin  // state jump situation
+					if (crc_calculated_channels >= 8'd15) begin
 
-						current_fifo_write_data <= {adc_a_ch2, adc_a_ch1};
+						current_fifo_write_data <= FRAME_HEADER;  /* ready to push FIFO */
 
 						if (fifo_almost_full) fifo_write_en <= FALSE;
 						else fifo_write_en <= TRUE;
@@ -669,9 +757,111 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 
 						current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
 
-					end
+						/* Use crc_rst_n_sync1 to make a latency of 1 */
 
-	            end
+						if (falling_edge_crc_rst_n && crc_calculated_channels <= 8'd15) begin
+
+							crc_calculated_channels <= crc_calculated_channels + 1;
+							crc_rst_n <= HIGH;
+
+							case (crc_calculated_channels)
+								8'd0: begin
+									adc_a_ch1_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch2[15: 8];
+									crc_source_l <= adc_a_ch2[7: 0];
+								end
+								8'd1: begin
+									adc_a_ch2_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch3[15: 8];
+									crc_source_l <= adc_a_ch3[7: 0];
+								end
+								8'd2: begin
+									adc_a_ch3_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch4[15: 8];
+									crc_source_l <= adc_a_ch4[7: 0];
+								end
+								8'd3: begin
+									adc_a_ch4_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch5[15: 8];
+									crc_source_l <= adc_a_ch5[7: 0];
+								end
+								8'd4: begin
+									adc_a_ch5_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch6[15: 8];
+									crc_source_l <= adc_a_ch6[7: 0];
+								end
+								8'd5: begin
+									adc_a_ch6_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch7[15: 8];
+									crc_source_l <= adc_a_ch7[7: 0];
+								end
+								8'd6: begin
+									adc_a_ch7_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_a_ch8[15: 8];
+									crc_source_l <= adc_a_ch8[7: 0];
+								end
+								8'd7: begin
+									adc_a_ch8_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch1[15: 8];
+									crc_source_l <= adc_b_ch1[7: 0];
+								end
+								8'd8: begin
+									adc_b_ch1_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch2[15: 8];
+									crc_source_l <= adc_b_ch2[7: 0];
+								end
+								8'd9: begin
+									adc_b_ch2_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch3[15: 8];
+									crc_source_l <= adc_b_ch3[7: 0];
+								end
+								8'd10: begin
+									adc_b_ch3_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch4[15: 8];
+									crc_source_l <= adc_b_ch4[7: 0];
+								end
+								8'd11: begin
+									adc_b_ch4_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch5[15: 8];
+									crc_source_l <= adc_b_ch5[7: 0];
+								end
+								8'd12: begin
+									adc_b_ch5_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch6[15: 8];
+									crc_source_l <= adc_b_ch6[7: 0];
+								end
+								8'd13: begin
+									adc_b_ch6_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch7[15: 8];
+									crc_source_l <= adc_b_ch7[7: 0];
+								end
+								8'd14: begin
+									adc_b_ch7_crc <= {crc_result_h, crc_result_l};
+									crc_source_h <= adc_b_ch8[15: 8];
+									crc_source_l <= adc_b_ch8[7: 0];
+								end
+								8'd15: begin
+									adc_b_ch8_crc <= {crc_result_h, crc_result_l};  /* calculated = 16, jump */
+								end
+
+								default: ;
+								
+							endcase
+
+							if (crc_calculated_channels <= 8'd14) crc_en <= TRUE;  /* calculated 15 */
+							else crc_en <= FALSE;  /* calculated 16 */
+
+						end else if (crc_calculated_channels <= 8'd14) begin  /* calculated 15, continue */
+
+							/* generate new negedge of crc_rst_n */
+
+							if (crc_rst_n == HIGH) crc_rst_n <= LOW;
+							else if (crc_rst_n == LOW && crc_rst_n_sync1 == LOW && crc_rst_n_sync2 == LOW) crc_rst_n <= HIGH;
+
+						end
+						
+					end
+				end
 	               
 	           	FIFO_WRITE_STATE__WRITE_FIFO: begin
 
@@ -682,78 +872,41 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
 							fifo_pushed_number <= fifo_pushed_number + 1;  // push one data
 
 							case (fifo_pushed_number)
-								4'd0: begin
-									current_fifo_write_data <= {adc_a_ch4, adc_a_ch3};
+								8'd0: current_fifo_write_data <= {adc_a_ch1, adc_a_ch1_crc};
+								8'd1: current_fifo_write_data <= {adc_a_ch2, adc_a_ch2_crc};
+								8'd2: current_fifo_write_data <= {adc_a_ch3, adc_a_ch3_crc};
+								8'd3: current_fifo_write_data <= {adc_a_ch4, adc_a_ch4_crc};
+								8'd4: current_fifo_write_data <= {adc_a_ch5, adc_a_ch5_crc};
+								8'd5: current_fifo_write_data <= {adc_a_ch6, adc_a_ch6_crc};
+								8'd6: current_fifo_write_data <= {adc_a_ch7, adc_a_ch7_crc};
+								8'd7: current_fifo_write_data <= {adc_a_ch8, adc_a_ch8_crc};
 
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd1: begin
-									current_fifo_write_data <= {adc_a_ch6, adc_a_ch5};
+								8'd8:  current_fifo_write_data <= {adc_b_ch1, adc_b_ch1_crc};
+								8'd9:  current_fifo_write_data <= {adc_b_ch2, adc_b_ch2_crc};
+								8'd10: current_fifo_write_data <= {adc_b_ch3, adc_b_ch3_crc};
+								8'd11: current_fifo_write_data <= {adc_b_ch4, adc_b_ch4_crc};
+								8'd12: current_fifo_write_data <= {adc_b_ch5, adc_b_ch5_crc};
+								8'd13: current_fifo_write_data <= {adc_b_ch6, adc_b_ch6_crc};
+								8'd14: current_fifo_write_data <= {adc_b_ch7, adc_b_ch7_crc};
+								8'd15: current_fifo_write_data <= {adc_b_ch8, adc_b_ch8_crc};
+								8'd16: current_fifo_write_data <= FRAME_TAILER;  /* pushed 17, continue */
 
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd2: begin
-									current_fifo_write_data <= {adc_a_ch8, adc_a_ch7};
-
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd3: begin
-									current_fifo_write_data <= {adc_b_ch2, adc_b_ch1};
-
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd4: begin
-									current_fifo_write_data <= {adc_b_ch4, adc_b_ch3};
-
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd5: begin
-									current_fifo_write_data <= {adc_b_ch6, adc_b_ch5};
-
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd6: begin
-									current_fifo_write_data <= {adc_b_ch8, adc_b_ch7};
-									
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd7: begin  // (pushed 8) all data have pushed, then push interval
-									current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
-									
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd8: begin  // (pushed 9) all data have pushed, then push channel info
-									current_fifo_write_data <= {4'd7, 4'd6, 4'd5, 4'd4, 4'd3, 4'd2, 4'd1, 4'd0};
-									
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd9: begin  // (pushed 10) then push channel info
-									current_fifo_write_data <= {4'd15, 4'd14, 4'd13, 4'd12, 4'd11, 4'd10, 4'd9, 4'd8};
-									
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd10: begin  // (pushed 11) then push interval
-									current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
-									
-									if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
-									else fifo_write_en <= TRUE;
-								end
-								4'd11: begin  // (pushed 12) all data have pushed, state jump
-									fifo_write_en <= FALSE;
-									current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
-								end
+								8'd17: current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
+								
 								default: current_fifo_write_data <= {(C_M_AXIS_TDATA_WIDTH){1'b1}};
 							endcase
+
+							if (fifo_pushed_number <= 8'd16) begin  /* when == 16, pushed 17, contiune */
+							
+								if (fifo_almost_full) fifo_write_en <= FALSE;  // last data of the fifo pushed at that time
+								else fifo_write_en <= TRUE;
+
+							end else begin
+							  
+								fifo_write_en <= FALSE;
+							
+							end
+
 						end
 									
 					end else begin
@@ -894,6 +1047,28 @@ module vuprs_adc_controller_v2_0_M00_AXIS #
         .hw_stby_n(adc_b_hw_stby_n)                      /* STBY# pin of the AD7606 */
 
      );
+
+	crc_smbus vuprs_crc_h
+	(
+
+  		.data_in(crc_source_h),  /* [7: 0] data in */
+  		.crc_en(crc_en),      /* crc_en */
+  		.rst_n(crc_rst_n),       /* rst_n */
+  		.clk(adc_clk),         /* clk */
+
+  		.crc_out(crc_result_h)   /* [7: 0] crc out */
+	);
+
+	crc_smbus vuprs_crc_l
+	(
+
+  		.data_in(crc_source_l),  /* [7: 0] data in */
+  		.crc_en(crc_en),      /* crc_en */
+  		.rst_n(crc_rst_n),       /* rst_n */
+  		.clk(adc_clk),         /* clk */
+
+  		.crc_out(crc_result_l)   /* [7: 0] crc out */
+	);
 
 	// User logic ends
 
