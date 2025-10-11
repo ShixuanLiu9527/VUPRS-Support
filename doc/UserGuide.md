@@ -2,6 +2,8 @@
 
 本文档是高速数据采集板编程指南, 记录了所有编程调试步骤.  
 
+[][]
+
 ## 1. `FPGA` 侧系统设计与使用
 
 `FPGA` 使用 `PCIe` 接口和 `RK3568` 通信.  
@@ -189,6 +191,7 @@ $$ C_{sampling} \leq 512 MB $$
     /dev/xdma0_c2h_0
     /dev/xdma0_c2h_1
 
+使用 `fpga-tool` 时, 默认使用 `/dev/xdma0_h2c_0` 和 `/dev/xdma0_c2h_0`.  
 同时, `1` 个 `Control` 通道, 用于访问 `XDMA-DMA` 寄存器:
 
     /dev/xdma0_control
